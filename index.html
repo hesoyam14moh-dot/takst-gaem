@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAKST</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, sans-serif; }
+  body {
+    background: linear-gradient(160deg, #0a0014 0%, #12004a 50%, #001a4d 100%);
+    color:#fff; min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .screen { display:none; width:100%; max-width:460px; padding:24px; text-align:center; }
+  .screen.active { display:block; }
+
+  h1 {
+    font-size:30px; letter-spacing:3px; margin-bottom:6px;
+    background: linear-gradient(90deg, #a855f7, #3b82f6);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight:800;
+  }
+  .sub { color:#8b8bb5; font-size:14px; margin-bottom:22px; }
+
+  .tabs { display:flex; margin-bottom:18px; border-bottom:1px solid #2a1a5e; }
+  .tabs button {
+    flex:1; background:none; border:none; color:#7a6aa8; padding:10px 4px;
+    font-size:14px; cursor:pointer; border-bottom:2px solid transparent;
+  }
+  .tabs button.on { color:#c084fc; border-bottom-color:#a855f7; }
+
+  input {
+    width:100%; padding:12px; margin-bottom:12px;
+    background:rgba(20,10,50,.8); border:1px solid #2a1a5e;
+    border-radius:8px; color:#fff; font-size:15px; outline:none; text-align:center;
+  }
+  input:focus { border-color:#a855f7; }
+  input::placeholder { color:#5a4a88; }
+  #recoveryInput { letter-spacing:6px; text-transform:uppercase; }
+
+  .btn {
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background: linear-gradient(90deg, #a855f7, #3b82f6);
+    color:#fff; font-weight:bold; font-size:16px; cursor:pointer; margin-top:6px;
+  }
+  .btn:active { transform:scale(0.98); }
+  .msg { min-height:20px; font-size:14px; margin-top:12px; color:#ff6b6b; }
+
+  /* شاشة اللعبة */
+  #gameScreen { position:relative; padding-top:150px; }
+
+  .topbar {
+    position:absolute; top:14px; left:14px; right:14px;
+    display:flex; justify-content:space-between; align-items:flex-start;
+  }
+  .top-actions { display:flex; flex-direction:column; gap:8px; }
+  .top-user { display:flex; flex-direction:column; align-items:center; gap:8px; }
+
+  .name {
+    font-size:22px; font-weight:bold; color:#c084fc;
+    text-shadow:0 0 12px rgba(168,85,247,.7);
+    max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    order:2;
+  }
+  .user-pic {
+    width:90px; height:90px; border-radius:50%;
+    border:2px solid #a855f7; background:rgba(20,10,50,.9);
+    display:flex; align-items:center; justify-content:center;
+    font-size:38px; color:#c084fc; overflow:hidden; order:1;
+    box-shadow:0 0 20px rgba(168,85,247,.5);
+  }
+  .user-pic img { width:100%; height:100%; object-fit:cover; }
+
+  .smallBtn {
+    background:none; border:1px solid #3b2a7a; color:#8b8bb5;
+    padding:7px 14px; border-radius:20px; cursor:pointer; font-size:12px;
+  }
+  .smallBtn:hover { border-color:#a855f7; color:#c084fc; }
+
+  .rects-row {
+    display:flex; gap:10px; justify-content:center; align-items:flex-start;
+    margin: 20px 0 30px;
+  }
+  .rect-wrap {
+    flex:1 1 0; max-width:130px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .rect {
+    width:100%; height:100px; border-radius:12px;
+    cursor:pointer; transition:.2s; display:block; text-decoration:none;
+    background-size:cover; background-position:center;
+  }
+  .rect:hover { transform:translateY(-3px); }
+
+  /* الأحمر: moh67 + صورة ثانية */
+  .rect.red {
+    background-image:url('https://i.postimg.cc/L5SrwVqN/IMG-20261007-203138-551.jpg');
+    box-shadow:0 0 20px rgba(239,68,68,.6);
+  }
+
+  /* الأخضر: sohtar + صورة أولى */
+  .rect.green {
+    background-image:url('https://i.postimg.cc/fTwGvBQ3/Screenshot-20260924-153817.png');
+    box-shadow:0 0 20px rgba(34,197,94,.6);
+  }
+
+  /* الشات: صورة شات + رابط chat */
+  .rect.chat {
+    background-image:url('https://i.postimg.cc/jddHcJgC/conversation-chat-sms-icon-vector-design-png-115082.jpg');
+    background-color:#fff;
+    box-shadow:0 0 20px rgba(168,85,247,.6);
+  }
+
+  .note { margin-top:8px; font-size:12px; color:#8b8bb5; text-align:center; line-height:1.4; }
+  .note span { color:#c084fc; font-weight:bold; }
+  .note.online span { color:#4ade80; }
+
+  .pic-upload { margin-bottom:14px; }
+  .pic-preview {
+    width:80px; height:80px; border-radius:50%;
+    border:2px dashed #3b2a7a;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:30px; color:#5a4a88; cursor:pointer; overflow:hidden;
+    background:rgba(20,10,50,.5);
+  }
+  .pic-preview img { width:100%; height:100%; object-fit:cover; }
+  .pic-label { display:block; font-size:12px; color:#7a6aa8; margin-top:6px; }
+  #picInput { display:none; }
+
+  .modal {
+    position:fixed; inset:0; background:rgba(0,0,0,.92);
+    display:none; align-items:center; justify-content:center; z-index:100; padding:20px;
+  }
+  .modal.show { display:flex; }
+  .modal-box {
+    background:linear-gradient(160deg, #12004a, #0a0014);
+    border:1px solid #a855f7; border-radius:16px;
+    padding:26px 22px; max-width:380px; width:100%; text-align:center;
+  }
+  .modal-box h2 { color:#c084fc; font-size:20px; margin-bottom:8px; }
+  .modal-box p { color:#8b8bb5; font-size:13px; margin-bottom:16px; }
+  .code-display {
+    background:#000; border:1px dashed #a855f7; border-radius:10px;
+    padding:16px; font-size:26px; letter-spacing:5px; font-weight:bold;
+    color:#fff; margin-bottom:16px; user-select:all;
+  }
+  .copyBtn {
+    background:transparent; border:1px solid #3b82f6; color:#7dabff;
+    padding:10px; border-radius:8px; width:100%; cursor:pointer; font-size:14px;
+  }
+  .must { color:#ff6b6b; font-size:12px; margin-top:12px; }
+</style>
+</head>
+<body>
+
+  <!-- شاشة الدخول -->
+  <div id="authScreen" class="screen active">
+    <h1>TAKST</h1>
+    <p class="sub">سجّل دخولك للبدء</p>
+
+    <div class="tabs">
+      <button id="tabLogin" class="on" onclick="switchTab('login')">دخول</button>
+      <button id="tabSignup" onclick="switchTab('signup')">حساب جديد</button>
+      <button id="tabRecover" onclick="switchTab('recover')">استرداد</button>
+    </div>
+
+    <input id="user" placeholder="اسم المستخدم" autocomplete="off">
+    <input id="pass" type="password" placeholder="كلمة السر">
+    <input id="pass2" type="password" placeholder="تأكيد كلمة السر" style="display:none">
+    <input id="recoveryInput" placeholder="XXXXXXX" maxlength="7" style="display:none">
+
+    <div id="picBox" class="pic-upload" style="display:none">
+      <label for="picInput" class="pic-preview" id="picPreview">+</label>
+      <span class="pic-label">أضف صورة (اختياري)</span>
+      <input type="file" id="picInput" accept="image/*">
+    </div>
+
+    <button class="btn" id="mainBtn" onclick="submitForm()">دخول</button>
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <!-- شاشة اللعبة -->
+  <div id="gameScreen" class="screen">
+    <div class="topbar">
+      <div class="top-actions">
+        <button class="smallBtn" onclick="showMyCode()">🔑 الرمز</button>
+        <button class="smallBtn" onclick="logout()">خروج</button>
+      </div>
+      <div class="top-user">
+        <div class="user-pic" id="userPicBox">🚕</div>
+        <span class="name" id="welcomeUser"></span>
+      </div>
+    </div>
+
+    <div class="rects-row">
+      <!-- الأحمر: لعبة فردية -->
+      <div class="rect-wrap">
+        <a class="rect red" href="https://hesoyam14moh-dot.github.io/moh67/" target="_blank"></a>
+        <p class="note">🎮 <span>لعبة فردية</span><br>غير أونلاين</p>
+      </div>
+
+      <!-- الأخضر: أونلاين -->
+      <div class="rect-wrap">
+        <a class="rect green" href="https://hesoyam14moh-dot.github.io/sohtar/" target="_blank"></a>
+        <p class="note online">🌐 <span>أونلاين</span></p>
+      </div>
+
+      <!-- الشات -->
+      <div class="rect-wrap">
+        <a class="rect chat" href="https://hesoyam14moh-dot.github.io/chat/" target="_blank"></a>
+        <p class="note">💬 شات</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة الرمز -->
+  <div id="codeModal" class="modal">
+    <div class="modal-box">
+      <h2>🔑 رمز الاسترداد</h2>
+      <p>احفظ هذا الرمز، ستحتاجه للدخول من أي جهاز آخر.</p>
+      <div class="code-display" id="codeText">-------</div>
+      <button class="copyBtn" onclick="copyCode()" id="copyBtn">📋 نسخ</button>
+      <button class="btn" onclick="confirmCode()" id="confirmBtn">حفظت الرمز ✓</button>
+      <p class="must" id="mustNote">⚠️ إجباري: احفظ الرمز</p>
+    </div>
+  </div>
+
+<script>
+  const USERS_KEY = 'takst_users';
+  const SESSION_KEY = 'takst_session';
+  let mode = 'login', pendingLogin = null, viewingMode = false, pendingPic = null;
+
+  const getUsers = () => { try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch(e) { return {}; } };
+  const saveUsers = u => localStorage.setItem(USERS_KEY, JSON.stringify(u));
+
+  function generateCode() {
+    const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let r = '';
+    for (let i = 0; i < 7; i++) r += c[Math.floor(Math.random() * c.length)];
+    return r;
+  }
+
+  function switchTab(m) {
+    mode = m;
+    document.getElementById('tabLogin').classList.toggle('on', m === 'login');
+    document.getElementById('tabSignup').classList.toggle('on', m === 'signup');
+    document.getElementById('tabRecover').classList.toggle('on', m === 'recover');
+    document.getElementById('pass2').style.display = m === 'signup' ? 'block' : 'none';
+    document.getElementById('picBox').style.display = m === 'signup' ? 'block' : 'none';
+    document.getElementById('recoveryInput').style.display = m === 'recover' ? 'block' : 'none';
+    document.getElementById('mainBtn').textContent = m === 'signup' ? 'إنشاء الحساب' : m === 'recover' ? 'استرداد' : 'دخول';
+    setMsg('');
+  }
+
+  function setMsg(t) { document.getElementById('msg').textContent = t; }
+
+  document.getElementById('picInput').addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      pendingPic = ev.target.result;
+      document.getElementById('picPreview').innerHTML = '<img src="' + pendingPic + '">';
+    };
+    r.readAsDataURL(f);
+  });
+
+  function submitForm() {
+    const u = document.getElementById('user').value.trim();
+    const p = document.getElementById('pass').value;
+    const p2 = document.getElementById('pass2').value;
+    const rec = document.getElementById('recoveryInput').value.trim().toUpperCase();
+    const users = getUsers();
+
+    if (mode === 'recover') {
+      if (!u || !rec) return setMsg('اكتب الاسم والرمز');
+      if (rec.length !== 7) return setMsg('الرمز 7 خانات');
+      if (users[u]) {
+        if (users[u].code !== rec) return setMsg('الرمز غير صحيح');
+        login(u);
+      } else {
+        users[u] = { password: rec, code: rec, pic: null };
+        saveUsers(users);
+        login(u);
+      }
+      return;
+    }
+
+    if (!u || !p) return setMsg('اكتب الاسم وكلمة السر');
+
+    if (mode === 'signup') {
+      if (p !== p2) return setMsg('كلمتا السر غير متطابقتين');
+      if (users[u]) return setMsg('الاسم موجود مسبقاً');
+      const code = generateCode();
+      users[u] = { password: p, code, pic: pendingPic || null };
+      saveUsers(users);
+      pendingLogin = u;
+      viewingMode = false;
+      document.getElementById('codeText').textContent = code;
+      document.getElementById('mustNote').style.display = 'block';
+      const btn = document.getElementById('confirmBtn');
+      btn.textContent = 'حفظت الرمز ✓';
+      btn.onclick = confirmCode;
+      document.getElementById('codeModal').classList.add('show');
+    } else {
+      if (!users[u]) return setMsg('الاسم غير موجود');
+      if (users[u].password !== p) return setMsg('كلمة السر غلط');
+      login(u);
+    }
+  }
+
+  function copyCode() {
+    navigator.clipboard.writeText(document.getElementById('codeText').textContent);
+    document.getElementById('copyBtn').textContent = '✅ تم';
+    setTimeout(() => document.getElementById('copyBtn').textContent = '📋 نسخ', 1500);
+  }
+
+  function confirmCode() {
+    document.getElementById('codeModal').classList.remove('show');
+    if (!viewingMode && pendingLogin) { login(pendingLogin); pendingLogin = null; }
+  }
+
+  function showMyCode() {
+    const u = localStorage.getItem(SESSION_KEY);
+    const users = getUsers();
+    if (!u || !users[u]) return;
+    viewingMode = true;
+    document.getElementById('codeText').textContent = users[u].code;
+    document.getElementById('mustNote').style.display = 'none';
+    const btn = document.getElementById('confirmBtn');
+    btn.textContent = 'إغلاق';
+    btn.onclick = () => document.getElementById('codeModal').classList.remove('show');
+    document.getElementById('codeModal').classList.add('show');
+  }
+
+  function login(username) {
+    localStorage.setItem(SESSION_KEY, username);
+    const users = getUsers();
+    const data = users[username] || {};
+    document.getElementById('welcomeUser').textContent = username;
+    const pic = document.getElementById('userPicBox');
+    pic.innerHTML = data.pic ? '<img src="' + data.pic + '">' : '🚕';
+    document.getElementById('authScreen').classList.remove('active');
+    document.getElementById('gameScreen').classList.add('active');
+    setMsg('');
+  }
+
+  function logout() {
+    localStorage.removeItem(SESSION_KEY);
+    document.getElementById('gameScreen').classList.remove('active');
+    document.getElementById('authScreen').classList.add('active');
+    switchTab('login');
+  }
+
+  window.onload = () => {
+    const s = localStorage.getItem(SESSION_KEY);
+    if (s && getUsers()[s]) login(s);
+  };
+</script>
+</body>
+</html>
