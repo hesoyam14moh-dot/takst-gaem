@@ -50,7 +50,6 @@
   .btn:active { transform:scale(0.98); }
   .msg { min-height:20px; font-size:14px; margin-top:12px; color:#ff6b6b; }
 
-  /* شاشة اللعبة */
   #gameScreen { position:relative; padding-top:180px; }
 
   .topbar {
@@ -58,28 +57,17 @@
     display:flex; justify-content:space-between; align-items:flex-start;
   }
   .top-actions { display:flex; flex-direction:column; gap:8px; }
-
   .top-user {
     display:flex; flex-direction:column; align-items:center; gap:6px;
     position:relative; padding-top:36px;
   }
-  /* زر الخروج فوق عاليمين */
   .logout-top {
     position:absolute; top:0; right:0;
-    background:none;
-    border:1px solid #ef4444;
-    color:#ff8080;
-    padding:5px 14px;
-    border-radius:20px;
-    cursor:pointer;
-    font-size:12px;
+    background:none; border:1px solid #ef4444; color:#ff8080;
+    padding:5px 14px; border-radius:20px; cursor:pointer; font-size:12px;
     transition:.2s;
   }
-  .logout-top:hover {
-    background:rgba(239,68,68,.15);
-    border-color:#ff6b6b;
-    color:#ffaaaa;
-  }
+  .logout-top:hover { background:rgba(239,68,68,.15); border-color:#ff6b6b; color:#ffaaaa; }
 
   .name {
     font-size:22px; font-weight:bold; color:#c084fc;
@@ -99,10 +87,8 @@
   .coins-badge {
     order:3;
     display:flex; align-items:center; gap:6px;
-    background:rgba(0,0,0,.6);
-    padding:5px 12px; border-radius:20px;
-    border:1px solid #a855f7;
-    font-weight:bold; font-size:16px;
+    background:rgba(0,0,0,.6); padding:5px 12px; border-radius:20px;
+    border:1px solid #a855f7; font-weight:bold; font-size:16px;
     box-shadow:0 0 12px rgba(168,85,247,.4);
   }
   .coins-badge img {
@@ -290,7 +276,7 @@
   <div id="redeemModal" class="modal">
     <div class="modal-box">
       <h2>💰 استرداد العملات</h2>
-      <p>أدخل الكود المكوّن من 7 أحرف لعرض عملاتك</p>
+      <p>أدخل كود مكوّن من 7 أحرف/أرقام</p>
       <input id="redeemInput" placeholder="XXXXXXX" maxlength="7">
       <button class="btn" onclick="submitRedeem()">تأكيد</button>
       <div class="redeem-result" id="redeemResult"></div>
@@ -303,6 +289,22 @@
   const SESSION_KEY = 'takst_session';
   const COIN_URL = 'https://i.postimg.cc/cHM21qYD/IMG-20261008-153917-222.jpg';
 
+  /* ==== أكواد الهدايا (7 خانات) ==== */
+  const GIFT_CODES = {
+    'HESOYAM' : 5,
+    'VONJFTG' : 0.5,
+    'BHYGFD'  : 0.5,
+    'OKATVCD' : 0.5,
+    'IMJYCXZ' : 0.5,
+    'MOKHSNB' : 0.5,
+    'OJKLUGZ' : 0.5,
+    'ZUPKMH'  : 0.5,
+    'WANRNEW' : 0.5,
+    'GDHHJKG' : 0.5,
+    'HHHHHHH' : 0.5,
+    'MOH6767' : 5
+  };
+
   let mode = 'login', pendingLogin = null, viewingMode = false, pendingPic = null;
 
   const getUsers = () => { try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch(e) { return {}; } };
@@ -313,6 +315,11 @@
     let r = '';
     for (let i = 0; i < 7; i++) r += c[Math.floor(Math.random() * c.length)];
     return r;
+  }
+
+  function formatCoins(n) {
+    if (n === Math.floor(n)) return String(n);
+    return String(n);
   }
 
   function switchTab(m) {
@@ -354,7 +361,7 @@
         if (users[u].code !== rec) return setMsg('الرمز غير صحيح');
         login(u);
       } else {
-        users[u] = { password: rec, code: rec, pic: null, coins: 0 };
+        users[u] = { password: rec, code: rec, pic: null, coins: 0, usedCodes: [] };
         saveUsers(users);
         login(u);
       }
@@ -367,7 +374,7 @@
       if (p !== p2) return setMsg('كلمتا السر غير متطابقتين');
       if (users[u]) return setMsg('الاسم موجود مسبقاً');
       const code = generateCode();
-      users[u] = { password: p, code, pic: pendingPic || null, coins: 0 };
+      users[u] = { password: p, code, pic: pendingPic || null, coins: 0, usedCodes: [] };
       saveUsers(users);
       pendingLogin = u;
       viewingMode = false;
@@ -430,29 +437,55 @@
       result.innerHTML = '<div style="color:#ff6b6b">⚠️ الكود يجب أن يكون 7 خانات</div>';
       return;
     }
-    if (input !== users[u].code) {
-      result.innerHTML = '<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';
+
+    /* ==== 1) كود هدية؟ ==== */
+    if (GIFT_CODES[input] !== undefined) {
+      users[u].usedCodes = users[u].usedCodes || [];
+      if (users[u].usedCodes.indexOf(input) !== -1) {
+        result.innerHTML = '<div style="color:#ff6b6b">⚠️ لقد استخدمت هذا الكود مسبقاً</div>';
+        return;
+      }
+      const amount = GIFT_CODES[input];
+      users[u].coins = (users[u].coins || 0) + amount;
+      users[u].usedCodes.push(input);
+      saveUsers(users);
+      updateCoinsDisplay();
+      result.innerHTML =
+        '<div style="color:#4ade80;font-size:14px">✅ تم إضافة ' + formatCoins(amount) + ' عملة</div>' +
+        '<div class="coins-show">' +
+          '<img src="' + COIN_URL + '" alt="عملة">' +
+          '<div style="text-align:right">' +
+            '<div class="val">' + formatCoins(users[u].coins) + '</div>' +
+            '<div class="lbl">مجموع عملاتك</div>' +
+          '</div>' +
+        '</div>';
       return;
     }
 
-    const coins = users[u].coins || 0;
-    result.innerHTML =
-      '<div style="color:#4ade80;font-size:14px">✅ تم التحقق</div>' +
-      '<div class="coins-show">' +
-        '<img src="' + COIN_URL + '" alt="عملة">' +
-        '<div style="text-align:right">' +
-          '<div class="val">' + coins + '</div>' +
-          '<div class="lbl">عملة موجودة</div>' +
-        '</div>' +
-      '</div>';
-    updateCoinsDisplay();
+    /* ==== 2) الكود الشخصي؟ ==== */
+    if (input === users[u].code) {
+      const coins = users[u].coins || 0;
+      result.innerHTML =
+        '<div style="color:#4ade80;font-size:14px">✅ تم التحقق</div>' +
+        '<div class="coins-show">' +
+          '<img src="' + COIN_URL + '" alt="عملة">' +
+          '<div style="text-align:right">' +
+            '<div class="val">' + formatCoins(coins) + '</div>' +
+            '<div class="lbl">عملة موجودة</div>' +
+          '</div>' +
+        '</div>';
+      return;
+    }
+
+    /* ==== 3) غير معروف ==== */
+    result.innerHTML = '<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';
   }
 
   function updateCoinsDisplay() {
     const u = localStorage.getItem(SESSION_KEY);
     const users = getUsers();
     const coins = (u && users[u] && users[u].coins) || 0;
-    document.getElementById('coinsCount').textContent = coins;
+    document.getElementById('coinsCount').textContent = formatCoins(coins);
   }
 
   function login(username) {
