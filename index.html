@@ -30,17 +30,19 @@ input::placeholder{color:#5a4a88}
 .settings-wrap{position:fixed;top:64px;right:12px;z-index:50}
 .settings-btn{width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.75);border:1.5px solid #a855f7;color:#c084fc;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:.2s;box-shadow:0 0 14px rgba(168,85,247,.5)}
 .settings-btn:hover{background:rgba(168,85,247,.2);transform:rotate(45deg)}
-.settings-menu{position:absolute;top:50px;right:0;background:linear-gradient(160deg,#1a0a4a,#0a0014);border:1.5px solid #a855f7;border-radius:12px;padding:8px;min-width:160px;box-shadow:0 0 24px rgba(168,85,247,.5);display:none}
+.settings-menu{position:absolute;top:50px;right:0;background:linear-gradient(160deg,#1a0a4a,#0a0014);border:1.5px solid #a855f7;border-radius:12px;padding:8px;min-width:180px;box-shadow:0 0 24px rgba(168,85,247,.5);display:none}
 .settings-menu.show{display:block}
-.settings-menu button{width:100%;padding:12px 16px;background:none;border:none;color:#ff8080;font-size:14px;font-weight:bold;cursor:pointer;border-radius:8px;text-align:right}
-.settings-menu button:hover{background:rgba(239,68,68,.15)}
+.settings-menu button{width:100%;padding:12px 16px;background:none;border:none;color:#c084fc;font-size:14px;font-weight:bold;cursor:pointer;border-radius:8px;text-align:right;transition:.2s}
+.settings-menu button:hover{background:rgba(168,85,247,.15)}
+.settings-menu button.danger{color:#ff8080}
+.settings-menu button.danger:hover{background:rgba(239,68,68,.15)}
 .topbar{position:absolute;top:100px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:flex-start}
 .top-actions{display:flex;flex-direction:column;gap:8px}
 .top-user{display:flex;flex-direction:column;align-items:center;gap:6px}
 .name{font-size:22px;font-weight:bold;color:#c084fc;text-shadow:0 0 12px rgba(168,85,247,.7);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;order:2}
 .user-pic{width:90px;height:90px;border-radius:50%;border:2px solid #a855f7;background:rgba(20,10,50,.9);display:flex;align-items:center;justify-content:center;font-size:38px;color:#c084fc;overflow:hidden;order:1;box-shadow:0 0 20px rgba(168,85,247,.5)}
 .user-pic img{width:100%;height:100%;object-fit:cover}
-.smallBtn{background:none;border:1px solid #3b2a7a;color:#8b8bb5;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:12px}
+.smallBtn{background:none;border:1px solid #3b2a7a;color:#8b8bb5;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:12px;transition:.2s}
 .smallBtn:hover{border-color:#a855f7;color:#c084fc}
 .rects-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 30px}
 .rect-wrap{display:flex;flex-direction:column;align-items:center;width:100%}
@@ -54,17 +56,19 @@ input::placeholder{color:#5a4a88}
 .note span{color:#c084fc;font-weight:bold}
 .note.online span{color:#4ade80}
 .pic-upload{margin-bottom:14px}
-.pic-preview{width:80px;height:80px;border-radius:50%;border:2px dashed #3b2a7a;display:inline-flex;align-items:center;justify-content:center;font-size:30px;color:#5a4a88;cursor:pointer;overflow:hidden;background:rgba(20,10,50,.5)}
+.pic-preview{width:90px;height:90px;border-radius:50%;border:2px dashed #3b2a7a;display:inline-flex;align-items:center;justify-content:center;font-size:30px;color:#5a4a88;cursor:pointer;overflow:hidden;background:rgba(20,10,50,.5);transition:.2s}
+.pic-preview:hover{border-color:#a855f7}
 .pic-preview img{width:100%;height:100%;object-fit:cover}
 .pic-label{display:block;font-size:12px;color:#7a6aa8;margin-top:6px}
-#picInput{display:none}
+#picInput,#accPicInput{display:none}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
 .modal.show{display:flex}
-.modal-box{background:linear-gradient(160deg,#12004a,#0a0014);border:1px solid #a855f7;border-radius:16px;padding:26px 22px;max-width:400px;width:100%;text-align:center}
-.modal-box h2{color:#c084fc;font-size:20px;margin-bottom:8px}
+.modal-box{background:linear-gradient(160deg,#12004a,#0a0014);border:1px solid #a855f7;border-radius:16px;padding:26px 22px;max-width:400px;width:100%;text-align:center;max-height:90vh;overflow-y:auto}
+.modal-box h2{color:#c084fc;font-size:20px;margin-bottom:12px}
 .modal-box p{color:#8b8bb5;font-size:13px;margin-bottom:16px;line-height:1.6}
+.modal-box label{display:block;text-align:right;color:#8b8bb5;font-size:12px;margin-bottom:6px;padding-right:4px}
 .code-display{background:#000;border:1px dashed #a855f7;border-radius:10px;padding:14px;font-size:16px;letter-spacing:2px;font-weight:bold;color:#fff;margin-bottom:16px;user-select:all;word-break:break-all;line-height:1.4}
-.copyBtn{background:transparent;border:1px solid #3b82f6;color:#7dabff;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-size:14px}
+.copyBtn{background:transparent;border:1px solid #3b82f6;color:#7dabff;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-size:14px;margin-bottom:8px}
 .must{color:#ff6b6b;font-size:12px;margin-top:12px}
 .redeem-result{margin-top:14px;min-height:30px}
 .coins-show{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;background:rgba(0,0,0,.5);border-radius:12px;border:1px solid #ffd400;margin-top:10px}
@@ -74,6 +78,15 @@ input::placeholder{color:#5a4a88}
 .success-msg{font-size:18px;font-weight:bold;color:#4ade80;text-shadow:0 0 12px rgba(74,222,128,.6);margin-bottom:6px}
 .gift-msg{font-size:15px;color:#ffd400;font-weight:bold;margin-bottom:6px}
 .info-note{font-size:11px;color:#7a6aa8;margin-top:8px;line-height:1.5}
+.pass-row{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.pass-row input{flex:1;margin:0;letter-spacing:1px}
+.pass-row button{background:none;border:1px solid #3b2a7a;color:#c084fc;width:44px;height:44px;border-radius:8px;cursor:pointer;font-size:18px}
+.pass-row button:hover{border-color:#a855f7;background:rgba(168,85,247,.15)}
+.acc-section{margin-bottom:16px;text-align:right}
+.acc-section .sec-title{color:#c084fc;font-size:13px;font-weight:bold;margin-bottom:8px;padding-right:2px}
+.pic-change-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.pic-change-row label,.pic-change-row button{flex:1;min-width:110px}
+.save-msg{min-height:18px;font-size:13px;color:#4ade80;margin-top:6px}
 </style>
 </head>
 <body>
@@ -108,7 +121,8 @@ input::placeholder{color:#5a4a88}
   <div class="settings-wrap">
     <button class="settings-btn" onclick="toggleSettings(event)">⚙️</button>
     <div class="settings-menu" id="settingsMenu">
-      <button onclick="logout()">🚪 تسجيل الخروج</button>
+      <button onclick="openAccountModal()">👤 معلومات الحساب</button>
+      <button onclick="logout()" class="danger">🚪 تسجيل الخروج</button>
     </div>
   </div>
   <div class="topbar">
@@ -129,6 +143,7 @@ input::placeholder{color:#5a4a88}
   </div>
 </div>
 
+<!-- رمز الاسترداد -->
 <div id="codeModal" class="modal">
   <div class="modal-box">
     <h2>🔑 رمز الاسترداد</h2>
@@ -141,6 +156,7 @@ input::placeholder{color:#5a4a88}
   </div>
 </div>
 
+<!-- استرداد العملات -->
 <div id="redeemModal" class="modal">
   <div class="modal-box">
     <h2>💰 استرداد العملات</h2>
@@ -149,6 +165,44 @@ input::placeholder{color:#5a4a88}
     <button class="btn" onclick="submitRedeem()">تأكيد</button>
     <div class="redeem-result" id="redeemResult"></div>
     <button class="smallBtn" onclick="closeRedeemModal()" style="margin-top:16px">إغلاق</button>
+  </div>
+</div>
+
+<!-- معلومات الحساب -->
+<div id="accountModal" class="modal">
+  <div class="modal-box">
+    <h2>👤 معلومات الحساب</h2>
+
+    <div class="acc-section">
+      <div class="sec-title">اسم الحساب</div>
+      <input id="accUsername" placeholder="اسم المستخدم">
+    </div>
+
+    <div class="acc-section">
+      <div class="sec-title">كلمة السر (مشفّرة)</div>
+      <div class="pass-row">
+        <input id="accPassword" type="password" readonly>
+        <button onclick="togglePass()" id="passEye">👁</button>
+      </div>
+    </div>
+
+    <div class="acc-section">
+      <div class="sec-title">صورة الحساب</div>
+      <div style="text-align:center;margin-bottom:8px">
+        <label for="accPicInput" class="pic-preview" id="accPicPreview" style="margin:0 auto">+</label>
+        <input type="file" id="accPicInput" accept="image/*">
+      </div>
+      <div class="pic-change-row">
+        <label for="accPicInput" class="smallBtn" style="text-align:center;padding:8px;cursor:pointer">📁 من المعرض</label>
+        <button class="smallBtn" onclick="clearPic()">🗑️ حذف الصورة</button>
+      </div>
+      <input id="accPicUrl" placeholder="أو الصق رابط صورة مباشر" style="margin-top:10px;font-size:13px">
+      <button class="smallBtn" onclick="applyPicUrl()" style="width:100%;margin-top:6px;padding:8px">🔗 تطبيق الرابط</button>
+    </div>
+
+    <button class="btn" onclick="saveAccount()">💾 حفظ التعديلات</button>
+    <div class="save-msg" id="accSaveMsg"></div>
+    <button class="smallBtn" onclick="closeAccountModal()" style="width:100%;margin-top:12px;padding:9px">إغلاق</button>
   </div>
 </div>
 
@@ -164,19 +218,43 @@ const GIFT_CODES={
   'VODMHAA':0.5,'YFHOLHJ':0.5,'TDOEMFH':0.5
 };
 
-let mode='login',pendingLogin=null,viewingMode=false,pendingPic=null;
-const getUsers=()=>{try{return JSON.parse(localStorage.getItem(USERS_KEY))||{}}catch(e){return{}}};
-const saveUsers=u=>localStorage.setItem(USERS_KEY,JSON.stringify(u));
+let mode='login',pendingLogin=null,viewingMode=false,pendingPic=null,
+    accPicPending=undefined,accPicFromUrl=undefined,passwordVisible=false;
 
-/* ==== توليد رمز الاسترداد (يحتوي الاسم + العملات) ==== */
+const getUsers=()=>{try{return JSON.parse(localStorage.getItem(USERS_KEY))||{}}catch(e){return{}}};
+const saveUsers=u=>{
+  try{localStorage.setItem(USERS_KEY,JSON.stringify(u));return true}
+  catch(e){alert('الذاكرة ممتلئة! جرّب صورة أصغر');return false}
+};
+
+/* ==== ضغط الصور ==== */
+function compressImage(file,callback){
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const img=new Image();
+    img.onload=function(){
+      const canvas=document.createElement('canvas');
+      const maxSize=250;
+      let w=img.width,h=img.height;
+      if(w>h){if(w>maxSize){h=h*maxSize/w;w=maxSize}}
+      else{if(h>maxSize){w=w*maxSize/h;h=maxSize}}
+      canvas.width=w;canvas.height=h;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0,w,h);
+      callback(canvas.toDataURL('image/jpeg',0.75));
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ==== رمز الاسترداد ==== */
 function makeAccountCode(username,coins){
   try{
     const raw=encodeURIComponent(username)+'|'+coins;
     return btoa(raw).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_');
   }catch(e){return''}
 }
-
-/* ==== فك رمز الاسترداد ==== */
 function parseAccountCode(code){
   try{
     let b64=code.replace(/-/g,'+').replace(/_/g,'/');
@@ -184,13 +262,9 @@ function parseAccountCode(code){
     const raw=atob(b64);
     const idx=raw.lastIndexOf('|');
     if(idx===-1)return null;
-    return{
-      username:decodeURIComponent(raw.slice(0,idx)),
-      coins:parseFloat(raw.slice(idx+1))||0
-    };
+    return{username:decodeURIComponent(raw.slice(0,idx)),coins:parseFloat(raw.slice(idx+1))||0};
   }catch(e){return null}
 }
-
 function formatCoins(n){return String(n)}
 
 function switchTab(m){
@@ -208,11 +282,13 @@ function switchTab(m){
 }
 function setMsg(t){document.getElementById('msg').textContent=t}
 
+/* صورة التسجيل */
 document.getElementById('picInput').addEventListener('change',e=>{
   const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{pendingPic=ev.target.result;document.getElementById('picPreview').innerHTML='<img src="'+pendingPic+'">'};
-  r.readAsDataURL(f)
+  compressImage(f,data=>{
+    pendingPic=data;
+    document.getElementById('picPreview').innerHTML='<img src="'+data+'">';
+  });
 });
 
 function submitForm(){
@@ -222,7 +298,6 @@ function submitForm(){
         rec=document.getElementById('recoveryInput').value.trim(),
         users=getUsers();
 
-  /* ==== استرداد الحساب بالرمز ==== */
   if(mode==='recover'){
     if(!rec)return setMsg('الصق رمز الاسترداد');
     const parsed=parseAccountCode(rec);
@@ -231,17 +306,13 @@ function submitForm(){
     if(!uname)return setMsg('الرمز لا يحتوي على اسم حساب');
 
     if(users[uname]){
-      // الحساب موجود على هذا الجهاز - سجّل دخول مباشر
+      // موجود على هذا الجهاز
+      users[uname].coins=ucoins; // تحديث بالعملات من الرمز
+      saveUsers(users);
       login(uname);
     }else{
-      // جهاز جديد - أنشئ الحساب بنفس الاسم والعملات
-      users[uname]={
-        password:'',
-        code:'',
-        pic:null,
-        coins:ucoins,
-        usedCodes:[]
-      };
+      // جهاز جديد
+      users[uname]={password:'',code:'',pic:null,coins:ucoins,usedCodes:[]};
       saveUsers(users);
       login(uname);
     }
@@ -254,9 +325,8 @@ function submitForm(){
     if(p!==p2)return setMsg('كلمتا السر غير متطابقتين');
     if(users[u])return setMsg('الاسم موجود مسبقاً');
     users[u]={password:p,code:'',pic:pendingPic||null,coins:0,usedCodes:[]};
-    saveUsers(users);
+    if(!saveUsers(users))return;
     pendingLogin=u;viewingMode=false;
-    // عرض الرمز الإجباري
     document.getElementById('codeText').textContent=makeAccountCode(u,0);
     document.getElementById('mustNote').style.display='block';
     const btn=document.getElementById('confirmBtn');
@@ -297,74 +367,4 @@ function openRedeemModal(){
   document.getElementById('redeemModal').classList.add('show');
   setTimeout(()=>document.getElementById('redeemInput').focus(),100);
 }
-function closeRedeemModal(){document.getElementById('redeemModal').classList.remove('show')}
-
-function submitRedeem(){
-  const u=localStorage.getItem(SESSION_KEY),users=getUsers(),
-        input=document.getElementById('redeemInput').value.trim().toUpperCase(),
-        result=document.getElementById('redeemResult');
-
-  if(!u||!users[u])return result.innerHTML='<div style="color:#ff6b6b">سجّل دخول أولاً</div>';
-  if(!input)return result.innerHTML='<div style="color:#ff6b6b">⚠️ اكتب الكود</div>';
-
-  if(GIFT_CODES[input]!==undefined){
-    users[u].usedCodes=users[u].usedCodes||[];
-    if(users[u].usedCodes.indexOf(input)!==-1)
-      return result.innerHTML='<div style="color:#ff6b6b">⚠️ لقد استخدمت هذا الكود مسبقاً</div>';
-    const amount=GIFT_CODES[input];
-    users[u].coins=(users[u].coins||0)+amount;
-    users[u].usedCodes.push(input);
-    saveUsers(users);updateCoinsDisplay();
-    result.innerHTML=
-      '<div class="success-msg">🎉 مبروك!</div>'+
-      '<div class="gift-msg">حصلت على '+formatCoins(amount)+' عملة</div>'+
-      '<div class="coins-show"><img src="'+COIN_URL+'"><div style="text-align:right"><div class="val">'+formatCoins(users[u].coins)+'</div><div class="lbl">مجموع عملاتك</div></div></div>';
-    return;
-  }
-
-  result.innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';
-}
-
-function updateCoinsDisplay(){
-  const u=localStorage.getItem(SESSION_KEY),users=getUsers(),
-        coins=(u&&users[u]&&users[u].coins)||0;
-  document.getElementById('coinsCount').textContent=formatCoins(coins);
-}
-
-function login(username){
-  localStorage.setItem(SESSION_KEY,username);
-  const users=getUsers(),data=users[username]||{};
-  document.getElementById('welcomeUser').textContent=username;
-  const pic=document.getElementById('userPicBox');
-  pic.innerHTML=data.pic?'<img src="'+data.pic+'">':'🚕';
-  updateCoinsDisplay();
-  document.getElementById('authScreen').classList.remove('active');
-  document.getElementById('gameScreen').classList.add('active');
-  document.getElementById('recoveryInput').value='';
-  setMsg('');
-}
-
-function toggleSettings(e){e.stopPropagation();document.getElementById('settingsMenu').classList.toggle('show')}
-document.addEventListener('click',function(e){
-  const menu=document.getElementById('settingsMenu');
-  if(menu&&menu.classList.contains('show')){
-    if(!e.target.closest('.settings-wrap'))menu.classList.remove('show');
-  }
-});
-
-function logout(){
-  localStorage.removeItem(SESSION_KEY);
-  document.getElementById('settingsMenu').classList.remove('show');
-  document.getElementById('gameScreen').classList.remove('active');
-  document.getElementById('authScreen').classList.add('active');
-  document.getElementById('user').value='';
-  document.getElementById('pass').value='';
-  document.getElementById('pass2').value='';
-  document.getElementById('recoveryInput').value='';
-  switchTab('login');
-}
-
-window.onload=()=>{const s=localStorage.getItem(SESSION_KEY);if(s&&getUsers()[s])login(s)};
-</script>
-</body>
-</html>
+function closeRedeemModal(){document.getElementById('redee
