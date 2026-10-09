@@ -18,7 +18,8 @@ h1{font-size:30px;letter-spacing:3px;margin-bottom:6px;background:linear-gradien
 input{width:100%;padding:12px;margin-bottom:12px;background:rgba(20,10,50,.8);border:1px solid #2a1a5e;border-radius:8px;color:#fff;font-size:15px;outline:none;text-align:center}
 input:focus{border-color:#a855f7}
 input::placeholder{color:#5a4a88}
-#recoveryInput,#redeemInput{letter-spacing:6px;text-transform:uppercase;font-weight:bold}
+#recoveryInput{letter-spacing:1px;text-transform:uppercase;font-weight:bold;font-size:13px}
+#redeemInput{letter-spacing:6px;text-transform:uppercase;font-weight:bold}
 .btn{width:100%;padding:13px;border:none;border-radius:8px;background:linear-gradient(90deg,#a855f7,#3b82f6);color:#fff;font-weight:bold;font-size:16px;cursor:pointer;margin-top:6px}
 .btn:active{transform:scale(.98)}
 .msg{min-height:20px;font-size:14px;margin-top:12px;color:#ff6b6b}
@@ -41,7 +42,6 @@ input::placeholder{color:#5a4a88}
 .user-pic img{width:100%;height:100%;object-fit:cover}
 .smallBtn{background:none;border:1px solid #3b2a7a;color:#8b8bb5;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:12px}
 .smallBtn:hover{border-color:#a855f7;color:#c084fc}
-/* 2x2 grid */
 .rects-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 30px}
 .rect-wrap{display:flex;flex-direction:column;align-items:center;width:100%}
 .rect{width:100%;height:120px;border-radius:14px;cursor:pointer;transition:.2s;display:block;text-decoration:none;background-size:cover;background-position:center}
@@ -60,10 +60,10 @@ input::placeholder{color:#5a4a88}
 #picInput{display:none}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
 .modal.show{display:flex}
-.modal-box{background:linear-gradient(160deg,#12004a,#0a0014);border:1px solid #a855f7;border-radius:16px;padding:26px 22px;max-width:380px;width:100%;text-align:center}
+.modal-box{background:linear-gradient(160deg,#12004a,#0a0014);border:1px solid #a855f7;border-radius:16px;padding:26px 22px;max-width:400px;width:100%;text-align:center}
 .modal-box h2{color:#c084fc;font-size:20px;margin-bottom:8px}
-.modal-box p{color:#8b8bb5;font-size:13px;margin-bottom:16px}
-.code-display{background:#000;border:1px dashed #a855f7;border-radius:10px;padding:16px;font-size:26px;letter-spacing:5px;font-weight:bold;color:#fff;margin-bottom:16px;user-select:all}
+.modal-box p{color:#8b8bb5;font-size:13px;margin-bottom:16px;line-height:1.6}
+.code-display{background:#000;border:1px dashed #a855f7;border-radius:10px;padding:14px;font-size:16px;letter-spacing:2px;font-weight:bold;color:#fff;margin-bottom:16px;user-select:all;word-break:break-all;line-height:1.4}
 .copyBtn{background:transparent;border:1px solid #3b82f6;color:#7dabff;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-size:14px}
 .must{color:#ff6b6b;font-size:12px;margin-top:12px}
 .redeem-result{margin-top:14px;min-height:30px}
@@ -73,6 +73,7 @@ input::placeholder{color:#5a4a88}
 .coins-show .lbl{font-size:12px;color:#8b8bb5}
 .success-msg{font-size:18px;font-weight:bold;color:#4ade80;text-shadow:0 0 12px rgba(74,222,128,.6);margin-bottom:6px}
 .gift-msg{font-size:15px;color:#ffd400;font-weight:bold;margin-bottom:6px}
+.info-note{font-size:11px;color:#7a6aa8;margin-top:8px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -89,7 +90,7 @@ input::placeholder{color:#5a4a88}
   <input id="user" placeholder="اسم المستخدم" autocomplete="off">
   <input id="pass" type="password" placeholder="كلمة السر">
   <input id="pass2" type="password" placeholder="تأكيد كلمة السر" style="display:none">
-  <input id="recoveryInput" placeholder="XXXXXXX" maxlength="7" style="display:none">
+  <input id="recoveryInput" placeholder="الصق رمز الاسترداد هنا" style="display:none">
   <div id="picBox" class="pic-upload" style="display:none">
     <label for="picInput" class="pic-preview" id="picPreview">+</label>
     <span class="pic-label">أضف صورة (اختياري)</span>
@@ -131,18 +132,19 @@ input::placeholder{color:#5a4a88}
 <div id="codeModal" class="modal">
   <div class="modal-box">
     <h2>🔑 رمز الاسترداد</h2>
-    <p>احفظ هذا الرمز، ستحتاجه للدخول من أي جهاز آخر.</p>
-    <div class="code-display" id="codeText">-------</div>
-    <button class="copyBtn" onclick="copyCode()" id="copyBtn">📋 نسخ</button>
+    <p>هذا الرمز يحمل اسمك وعملاتك. احفظه في مكان آمن، وإذا زادت عملاتك ارجع خذه من جديد.</p>
+    <div class="code-display" id="codeText">----</div>
+    <button class="copyBtn" onclick="copyCode()" id="copyBtn">📋 نسخ الرمز</button>
     <button class="btn" onclick="confirmCode()" id="confirmBtn">حفظت الرمز ✓</button>
-    <p class="must" id="mustNote">⚠️ إجباري: احفظ الرمز</p>
+    <p class="must" id="mustNote">⚠️ إجباري: احفظ الرمز قبل المتابعة</p>
+    <p class="info-note">🔒 الرمز يحتوي على اسمك + عدد عملاتك الحالي</p>
   </div>
 </div>
 
 <div id="redeemModal" class="modal">
   <div class="modal-box">
     <h2>💰 استرداد العملات</h2>
-    <p>أدخل كود مكوّن من 7 خانات</p>
+    <p>أدخل كود هدية (7 خانات)</p>
     <input id="redeemInput" placeholder="XXXXXXX" maxlength="7">
     <button class="btn" onclick="submitRedeem()">تأكيد</button>
     <div class="redeem-result" id="redeemResult"></div>
@@ -166,7 +168,29 @@ let mode='login',pendingLogin=null,viewingMode=false,pendingPic=null;
 const getUsers=()=>{try{return JSON.parse(localStorage.getItem(USERS_KEY))||{}}catch(e){return{}}};
 const saveUsers=u=>localStorage.setItem(USERS_KEY,JSON.stringify(u));
 
-function generateCode(){const c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';let r='';for(let i=0;i<7;i++)r+=c[Math.floor(Math.random()*c.length)];return r}
+/* ==== توليد رمز الاسترداد (يحتوي الاسم + العملات) ==== */
+function makeAccountCode(username,coins){
+  try{
+    const raw=encodeURIComponent(username)+'|'+coins;
+    return btoa(raw).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_');
+  }catch(e){return''}
+}
+
+/* ==== فك رمز الاسترداد ==== */
+function parseAccountCode(code){
+  try{
+    let b64=code.replace(/-/g,'+').replace(/_/g,'/');
+    while(b64.length%4)b64+='=';
+    const raw=atob(b64);
+    const idx=raw.lastIndexOf('|');
+    if(idx===-1)return null;
+    return{
+      username:decodeURIComponent(raw.slice(0,idx)),
+      coins:parseFloat(raw.slice(idx+1))||0
+    };
+  }catch(e){return null}
+}
+
 function formatCoins(n){return String(n)}
 
 function switchTab(m){
@@ -192,16 +216,36 @@ document.getElementById('picInput').addEventListener('change',e=>{
 });
 
 function submitForm(){
-  const u=document.getElementById('user').value.trim(),p=document.getElementById('pass').value,p2=document.getElementById('pass2').value,rec=document.getElementById('recoveryInput').value.trim().toUpperCase(),users=getUsers();
+  const u=document.getElementById('user').value.trim(),
+        p=document.getElementById('pass').value,
+        p2=document.getElementById('pass2').value,
+        rec=document.getElementById('recoveryInput').value.trim(),
+        users=getUsers();
 
+  /* ==== استرداد الحساب بالرمز ==== */
   if(mode==='recover'){
-    if(!rec)return setMsg('اكتب كود الاسترداد');
-    if(rec.length!==7)return setMsg('كود الحساب يجب أن يكون 7 خانات');
-    let foundUser=null;
-    for(const name in users)if(users[name].code===rec){foundUser=name;break}
-    if(foundUser)login(foundUser);
-    else{const newName='لاعب_'+rec.substring(0,4);users[newName]={password:rec,code:rec,pic:null,coins:0,usedCodes:[]};saveUsers(users);login(newName)}
-    return
+    if(!rec)return setMsg('الصق رمز الاسترداد');
+    const parsed=parseAccountCode(rec);
+    if(!parsed)return setMsg('الرمز غير صحيح أو تالف');
+    const uname=parsed.username,ucoins=parsed.coins;
+    if(!uname)return setMsg('الرمز لا يحتوي على اسم حساب');
+
+    if(users[uname]){
+      // الحساب موجود على هذا الجهاز - سجّل دخول مباشر
+      login(uname);
+    }else{
+      // جهاز جديد - أنشئ الحساب بنفس الاسم والعملات
+      users[uname]={
+        password:'',
+        code:'',
+        pic:null,
+        coins:ucoins,
+        usedCodes:[]
+      };
+      saveUsers(users);
+      login(uname);
+    }
+    return;
   }
 
   if(!u||!p)return setMsg('اكتب الاسم وكلمة السر');
@@ -209,37 +253,56 @@ function submitForm(){
   if(mode==='signup'){
     if(p!==p2)return setMsg('كلمتا السر غير متطابقتين');
     if(users[u])return setMsg('الاسم موجود مسبقاً');
-    const code=generateCode();
-    users[u]={password:p,code,pic:pendingPic||null,coins:0,usedCodes:[]};
-    saveUsers(users);pendingLogin=u;viewingMode=false;
-    document.getElementById('codeText').textContent=code;
+    users[u]={password:p,code:'',pic:pendingPic||null,coins:0,usedCodes:[]};
+    saveUsers(users);
+    pendingLogin=u;viewingMode=false;
+    // عرض الرمز الإجباري
+    document.getElementById('codeText').textContent=makeAccountCode(u,0);
     document.getElementById('mustNote').style.display='block';
     const btn=document.getElementById('confirmBtn');
     btn.textContent='حفظت الرمز ✓';btn.onclick=confirmCode;
-    document.getElementById('codeModal').classList.add('show')
+    document.getElementById('codeModal').classList.add('show');
   }else{
     if(!users[u])return setMsg('الاسم غير موجود');
     if(users[u].password!==p)return setMsg('كلمة السر غلط');
-    login(u)
+    login(u);
   }
 }
 
-function copyCode(){navigator.clipboard.writeText(document.getElementById('codeText').textContent);document.getElementById('copyBtn').textContent='✅ تم';setTimeout(()=>document.getElementById('copyBtn').textContent='📋 نسخ',1500)}
-function confirmCode(){document.getElementById('codeModal').classList.remove('show');if(!viewingMode&&pendingLogin){login(pendingLogin);pendingLogin=null}}
-
-function showMyCode(){
-  const u=localStorage.getItem(SESSION_KEY),users=getUsers();if(!u||!users[u])return;
-  viewingMode=true;document.getElementById('codeText').textContent=users[u].code;
-  document.getElementById('mustNote').style.display='none';
-  const btn=document.getElementById('confirmBtn');btn.textContent='إغلاق';btn.onclick=()=>document.getElementById('codeModal').classList.remove('show');
-  document.getElementById('codeModal').classList.add('show')
+function copyCode(){
+  navigator.clipboard.writeText(document.getElementById('codeText').textContent);
+  document.getElementById('copyBtn').textContent='✅ تم النسخ';
+  setTimeout(()=>document.getElementById('copyBtn').textContent='📋 نسخ الرمز',1500);
+}
+function confirmCode(){
+  document.getElementById('codeModal').classList.remove('show');
+  if(!viewingMode&&pendingLogin){login(pendingLogin);pendingLogin=null}
 }
 
-function openRedeemModal(){document.getElementById('redeemInput').value='';document.getElementById('redeemResult').innerHTML='';document.getElementById('redeemModal').classList.add('show');setTimeout(()=>document.getElementById('redeemInput').focus(),100)}
+function showMyCode(){
+  const u=localStorage.getItem(SESSION_KEY),users=getUsers();
+  if(!u||!users[u])return;
+  viewingMode=true;
+  document.getElementById('codeText').textContent=makeAccountCode(u,users[u].coins||0);
+  document.getElementById('mustNote').style.display='none';
+  const btn=document.getElementById('confirmBtn');
+  btn.textContent='إغلاق';
+  btn.onclick=()=>document.getElementById('codeModal').classList.remove('show');
+  document.getElementById('codeModal').classList.add('show');
+}
+
+function openRedeemModal(){
+  document.getElementById('redeemInput').value='';
+  document.getElementById('redeemResult').innerHTML='';
+  document.getElementById('redeemModal').classList.add('show');
+  setTimeout(()=>document.getElementById('redeemInput').focus(),100);
+}
 function closeRedeemModal(){document.getElementById('redeemModal').classList.remove('show')}
 
 function submitRedeem(){
-  const u=localStorage.getItem(SESSION_KEY),users=getUsers(),input=document.getElementById('redeemInput').value.trim().toUpperCase(),result=document.getElementById('redeemResult');
+  const u=localStorage.getItem(SESSION_KEY),users=getUsers(),
+        input=document.getElementById('redeemInput').value.trim().toUpperCase(),
+        result=document.getElementById('redeemResult');
 
   if(!u||!users[u])return result.innerHTML='<div style="color:#ff6b6b">سجّل دخول أولاً</div>';
   if(!input)return result.innerHTML='<div style="color:#ff6b6b">⚠️ اكتب الكود</div>';
@@ -256,38 +319,50 @@ function submitRedeem(){
       '<div class="success-msg">🎉 مبروك!</div>'+
       '<div class="gift-msg">حصلت على '+formatCoins(amount)+' عملة</div>'+
       '<div class="coins-show"><img src="'+COIN_URL+'"><div style="text-align:right"><div class="val">'+formatCoins(users[u].coins)+'</div><div class="lbl">مجموع عملاتك</div></div></div>';
-    return
+    return;
   }
 
-  if(input===users[u].code){
-    const coins=users[u].coins||0;
-    result.innerHTML=
-      '<div class="success-msg">✅ تم التحقق</div>'+
-      '<div class="gift-msg">هذا كود حسابك</div>'+
-      '<div class="coins-show"><img src="'+COIN_URL+'"><div style="text-align:right"><div class="val">'+formatCoins(coins)+'</div><div class="lbl">عملة موجودة</div></div></div>';
-    return
-  }
-
-  result.innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>'
+  result.innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';
 }
 
-function updateCoinsDisplay(){const u=localStorage.getItem(SESSION_KEY),users=getUsers(),coins=(u&&users[u]&&users[u].coins)||0;document.getElementById('coinsCount').textContent=formatCoins(coins)}
+function updateCoinsDisplay(){
+  const u=localStorage.getItem(SESSION_KEY),users=getUsers(),
+        coins=(u&&users[u]&&users[u].coins)||0;
+  document.getElementById('coinsCount').textContent=formatCoins(coins);
+}
 
 function login(username){
   localStorage.setItem(SESSION_KEY,username);
   const users=getUsers(),data=users[username]||{};
   document.getElementById('welcomeUser').textContent=username;
-  const pic=document.getElementById('userPicBox');pic.innerHTML=data.pic?'<img src="'+data.pic+'">':'🚕';
+  const pic=document.getElementById('userPicBox');
+  pic.innerHTML=data.pic?'<img src="'+data.pic+'">':'🚕';
   updateCoinsDisplay();
   document.getElementById('authScreen').classList.remove('active');
   document.getElementById('gameScreen').classList.add('active');
-  setMsg('')
+  document.getElementById('recoveryInput').value='';
+  setMsg('');
 }
 
 function toggleSettings(e){e.stopPropagation();document.getElementById('settingsMenu').classList.toggle('show')}
-document.addEventListener('click',function(e){const menu=document.getElementById('settingsMenu');if(menu&&menu.classList.contains('show')){if(!e.target.closest('.settings-wrap'))menu.classList.remove('show')}});
+document.addEventListener('click',function(e){
+  const menu=document.getElementById('settingsMenu');
+  if(menu&&menu.classList.contains('show')){
+    if(!e.target.closest('.settings-wrap'))menu.classList.remove('show');
+  }
+});
 
-function logout(){localStorage.removeItem(SESSION_KEY);document.getElementById('settingsMenu').classList.remove('show');document.getElementById('gameScreen').classList.remove('active');document.getElementById('authScreen').classList.add('active');document.getElementById('user').value='';document.getElementById('pass').value='';document.getElementById('pass2').value='';document.getElementById('recoveryInput').value='';switchTab('login')}
+function logout(){
+  localStorage.removeItem(SESSION_KEY);
+  document.getElementById('settingsMenu').classList.remove('show');
+  document.getElementById('gameScreen').classList.remove('active');
+  document.getElementById('authScreen').classList.add('active');
+  document.getElementById('user').value='';
+  document.getElementById('pass').value='';
+  document.getElementById('pass2').value='';
+  document.getElementById('recoveryInput').value='';
+  switchTab('login');
+}
 
 window.onload=()=>{const s=localStorage.getItem(SESSION_KEY);if(s&&getUsers()[s])login(s)};
 </script>
