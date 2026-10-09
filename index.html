@@ -343,7 +343,7 @@ function login(username){
   localStorage.setItem('takst_session',username);
   const users=getUsers(),data=users[username]||{};
   welcomeUser.textContent=username;
-  userPicBox.innerHTML=data.pic?'<img src="'+data.pic+'">':'🚕';
+  userPicBox.innerHTML=data.pic?'<img src="'+data.pic+'">':'👤';
   updateCoins();
   authScreen.classList.remove('active');
   gameScreen.classList.add('active');
@@ -413,7 +413,7 @@ function saveAccount(){
   }
   if(!saveUsers(users))return;
 
-  userPicBox.innerHTML=users[newName].pic?'<img src="'+users[newName].pic+'">':'🚕';
+  userPicBox.innerHTML=users[newName].pic?'<img src="'+users[newName].pic+'">':'👤';
   accSaveMsg.textContent='✅ تم الحفظ';
   setTimeout(()=>closeModal('accountModal'),800);
 }
