@@ -172,7 +172,6 @@ const $=id=>document.getElementById(id);
 
 function cmp(f,cb){const r=new FileReader();r.onload=e=>{const i=new Image();i.onload=()=>{const c=document.createElement('canvas');let w=i.width,h=i.height,m=250;if(w>h&&w>m){h=h*m/w;w=m}else if(h>m){w=w*m/h;h=m}c.width=w;c.height=h;c.getContext('2d').drawImage(i,0,0,w,h);cb(c.toDataURL('image/jpeg',.75))};i.src=e.target.result};r.readAsDataURL(f)}
 
-/* ==== رمز الاسترداد (JSON + Base64) ==== */
 function mk(u,c,p){
   try{
     const o={u:u,c:c};
@@ -232,7 +231,6 @@ function go(){
   }
 }
 
-/* نسخ مع طريقة احتياطية */
 function cp(){
   const t=$('ct').textContent;
   const done=()=>{$('cpb').textContent='✅ تم';setTimeout(()=>$('cpb').textContent='📋 نسخ',1500)};
