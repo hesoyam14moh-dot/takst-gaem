@@ -9,7 +9,7 @@
 body{background:linear-gradient(160deg,#0a0014,#12004a,#001a4d);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center}
 .s{display:none;width:100%;max-width:600px;padding:24px;text-align:center}
 .s.on{display:block}
-.logo{height:160px;margin:0 auto 14px;display:block}
+.logo{width:180px;height:180px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid #a855f7;box-shadow:0 0 28px rgba(168,85,247,.6)}
 h1{font-size:30px;letter-spacing:3px;margin-bottom:6px;background:linear-gradient(90deg,#a855f7,#3b82f6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
 .sub{color:#8b8bb5;font-size:14px;margin-bottom:22px}
 .tabs{display:flex;margin-bottom:18px;border-bottom:1px solid #2a1a5e}
@@ -49,13 +49,13 @@ input::placeholder{color:#5a4a88}
 .r.r4{background-image:url('https://i.postimg.cc/bYSS5zxd/IMG-20261008-155731-897.jpg')}
 .nt{margin-top:10px;font-size:12px;color:#8b8bb5}
 .nt span{color:#c084fc;font-weight:bold}
-.nt ol span{color:#4ade80}
+.nt.ol span{color:#4ade80}
 .m{position:fixed;inset:0;background:#000000eb;display:none;align-items:center;justify-content:center;z-index:9;padding:20px}
 .m.on{display:flex}
 .mb{background:linear-gradient(160deg,#12004a,#0a0014);border:1px solid #a855f7;border-radius:16px;padding:26px 22px;max-width:400px;width:100%;text-align:center;max-height:90vh;overflow-y:auto}
 .mb h2{color:#c084fc;font-size:20px;margin-bottom:12px}
 .mb p{color:#8b8bb5;font-size:13px;margin-bottom:16px}
-.cd{background:#000;border:1px dashed #a855f7;border-radius:10px;padding:14px;font-size:13px;font-weight:bold;margin-bottom:16px;word-break:break-all;line-height:1.4}
+.cd{background:#000;border:1px dashed #a855f7;border-radius:10px;padding:14px;font-size:13px;font-weight:bold;margin-bottom:16px;word-break:break-all;line-height:1.4;user-select:all}
 .cb{background:none;border:1px solid #3b82f6;color:#7dabff;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-size:14px;margin-bottom:8px}
 .must{color:#ff6b6b;font-size:12px;margin-top:12px}
 .cs{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;background:#00000080;border-radius:12px;border:1px solid #ffd400;margin-top:10px}
@@ -172,8 +172,25 @@ const $=id=>document.getElementById(id);
 
 function cmp(f,cb){const r=new FileReader();r.onload=e=>{const i=new Image();i.onload=()=>{const c=document.createElement('canvas');let w=i.width,h=i.height,m=250;if(w>h&&w>m){h=h*m/w;w=m}else if(h>m){w=w*m/h;h=m}c.width=w;c.height=h;c.getContext('2d').drawImage(i,0,0,w,h);cb(c.toDataURL('image/jpeg',.75))};i.src=e.target.result};r.readAsDataURL(f)}
 
-function mk(u,c,p){try{let r=encodeURIComponent(u)+'|'+c;if(p&&p.indexOf('http')===0)r+='|'+encodeURIComponent(p);return btoa(r).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_')}catch(e){return''}}
-function prs(c){try{let b=c.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';const r=atob(b).split('|');if(r.length<2)return null;return{u:decodeURIComponent(r[0]),c:parseFloat(r[1])||0,p:r[2]?decodeURIComponent(r[2]):null}}catch(e){return null}}
+/* ==== رمز الاسترداد (JSON + Base64) ==== */
+function mk(u,c,p){
+  try{
+    const o={u:u,c:c};
+    if(p&&typeof p==='string'&&p.indexOf('http')===0)o.p=p;
+    const b=encodeURIComponent(JSON.stringify(o));
+    return btoa(b).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_');
+  }catch(e){return''}
+}
+function prs(code){
+  try{
+    let b=code.replace(/-/g,'+').replace(/_/g,'/');
+    while(b.length%4)b+='=';
+    const j=decodeURIComponent(atob(b));
+    const o=JSON.parse(j);
+    if(!o||!o.u)return null;
+    return {u:o.u, c:parseFloat(o.c)||0, p:o.p||null};
+  }catch(e){return null}
+}
 
 function tab(m){mode=m;$('tl').classList.toggle('on',m==='login');$('ts').classList.toggle('on',m==='signup');$('tr').classList.toggle('on',m==='recover');$('u').style.display=m==='recover'?'none':'block';$('p').style.display=m==='recover'?'none':'block';$('p2').style.display=m==='signup'?'block':'none';$('pb').style.display=m==='signup'?'block':'none';$('rec').style.display=m==='recover'?'block':'none';$('mb').textContent=m==='signup'?'إنشاء الحساب':m==='recover'?'استرداد':'دخول';$('m').textContent=''}
 
@@ -186,8 +203,14 @@ function go(){
     if(!rc)return $('m').textContent='الصق الرمز';
     const q=prs(rc);
     if(!q)return $('m').textContent='الرمز غير صحيح';
-    if(us[q.u]){us[q.u].coins=q.c;if(q.p)us[q.u].pic=q.p;S(us);in_(q.u)}
-    else{us[q.u]={password:'',code:'',pic:q.p||null,coins:q.c,usedCodes:[]};S(us);in_(q.u)}
+    if(us[q.u]){
+      us[q.u].coins=q.c;
+      if(q.p)us[q.u].pic=q.p;
+      S(us);in_(q.u);
+    }else{
+      us[q.u]={password:'',code:'',pic:q.p||null,coins:q.c,usedCodes:[]};
+      S(us);in_(q.u);
+    }
     return
   }
   if(!u||!p)return $('m').textContent='اكتب الاسم وكلمة السر';
@@ -205,11 +228,27 @@ function go(){
   }else{
     if(!us[u])return $('m').textContent='الاسم غير موجود';
     if(us[u].password!==p)return $('m').textContent='كلمة السر غلط';
-    in_(u)
+    in_(u);
   }
 }
 
-function cp(){navigator.clipboard.writeText($('ct').textContent);$('cpb').textContent='✅';setTimeout(()=>$('cpb').textContent='📋 نسخ',1500)}
+/* نسخ مع طريقة احتياطية */
+function cp(){
+  const t=$('ct').textContent;
+  const done=()=>{$('cpb').textContent='✅ تم';setTimeout(()=>$('cpb').textContent='📋 نسخ',1500)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(done).catch(()=>fb(t,done));
+  }else fb(t,done);
+}
+function fb(t,cb){
+  const ta=document.createElement('textarea');
+  ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);
+  ta.focus();ta.select();
+  try{document.execCommand('copy');cb()}catch(e){$('cpb').textContent='⚠️ انسخ يدوياً'}
+  document.body.removeChild(ta);
+}
+
 function cnf(){$('cm').classList.remove('on');if(!viewing&&pend){in_(pend);pend=null}}
 
 function myCode(){
