@@ -8,16 +8,15 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,sans-serif}
 body{background:linear-gradient(160deg,#0a0014,#12004a,#001a4d);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center}
 .s{display:none;width:100%;max-width:600px;padding:24px;text-align:center}.s.on{display:block}
-.logo{width:180px;height:180px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid #a855f7;box-shadow:0 0 28px #a855f799}
-h1{font-size:30px;letter-spacing:3px;margin-bottom:6px;background:linear-gradient(90deg,#a855f7,#3b82f6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.logo{width:180px;height:180px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid #a855f7}
+h1{font-size:30px;margin-bottom:6px;color:#c084fc}
 .sub{color:#8b8bb5;font-size:14px;margin-bottom:22px}
 .tabs{display:flex;margin-bottom:18px;border-bottom:1px solid #2a1a5e}
 .tabs button{flex:1;background:none;border:none;color:#7a6aa8;padding:10px;font-size:14px;cursor:pointer;border-bottom:2px solid transparent}
 .tabs button.on{color:#c084fc;border-bottom-color:#a855f7}
-input,textarea{width:100%;padding:12px;margin-bottom:12px;background:#140a32cc;border:1px solid #2a1a5e;border-radius:8px;color:#fff;font-size:15px;outline:none;text-align:center;font-family:inherit}
-textarea{resize:vertical;min-height:70px;font-size:11px;word-break:break-all}
+input,textarea{width:100%;padding:12px;margin-bottom:12px;background:#140a32cc;border:1px solid #2a1a5e;border-radius:8px;color:#fff;font-size:15px;outline:none;text-align:center}
+textarea{min-height:70px;font-size:11px;word-break:break-all}
 input:focus,textarea:focus{border-color:#a855f7}
-input::placeholder,textarea::placeholder{color:#5a4a88}
 #rec,#rInp{letter-spacing:6px;text-transform:uppercase;font-weight:bold}
 .btn{width:100%;padding:13px;border:none;border-radius:8px;background:linear-gradient(90deg,#a855f7,#3b82f6);color:#fff;font-weight:bold;font-size:16px;cursor:pointer;margin-top:6px}
 .msg{min-height:20px;font-size:14px;margin-top:12px;color:#ff6b6b}
@@ -28,20 +27,19 @@ input::placeholder,textarea::placeholder{color:#5a4a88}
 .rb{background:linear-gradient(90deg,#a855f7,#3b82f6);border:none;color:#fff;font-weight:bold;font-size:12px;padding:8px 12px;border-radius:20px;cursor:pointer}
 .sw{position:relative}
 .sb{width:38px;height:38px;border-radius:50%;background:#000000bf;border:1.5px solid #a855f7;color:#c084fc;cursor:pointer;font-size:17px}
-.sm{position:absolute;top:46px;left:0;background:linear-gradient(160deg,#1a0a4a,#0a0014);border:1.5px solid #a855f7;border-radius:12px;padding:8px;min-width:180px;display:none}
+.sm{position:absolute;top:46px;left:0;background:#1a0a4a;border:1.5px solid #a855f7;border-radius:12px;padding:8px;min-width:180px;display:none}
 .sm.on{display:block}
 .sm button{width:100%;padding:12px;background:none;border:none;color:#c084fc;font-size:14px;font-weight:bold;cursor:pointer;border-radius:8px;text-align:right}
 .sm button.d{color:#ff8080}
 .tb{position:absolute;top:100px;left:14px;right:14px;display:flex;justify-content:flex-end}
 .tu{display:flex;flex-direction:column;align-items:center;gap:6px}
 .nm{font-size:22px;font-weight:bold;color:#c084fc;order:2;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.up{width:90px;height:90px;border-radius:50%;border:2px solid #a855f7;background:#140a32e6;display:flex;align-items:center;justify-content:center;font-size:38px;overflow:hidden;order:1}
+.up{width:90px;height:90px;border-radius:50%;border:2px solid #a855f7;background:#140a32;display:flex;align-items:center;justify-content:center;font-size:38px;overflow:hidden;order:1}
 .up img{width:100%;height:100%;object-fit:cover}
 .sb2{background:none;border:1px solid #3b2a7a;color:#8b8bb5;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:12px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 30px}
 .rw{display:flex;flex-direction:column;align-items:center}
-.r{width:100%;height:120px;border-radius:14px;cursor:pointer;display:block;background-size:cover;background-position:center;transition:.2s}
-.r:hover{transform:translateY(-4px)}
+.r{width:100%;height:120px;border-radius:14px;cursor:pointer;display:block;background-size:cover;background-position:center}
 .r1{background-image:url('https://i.postimg.cc/L5SrwVqN/IMG-20261007-203138-551.jpg')}
 .r2{background-image:url('https://i.postimg.cc/fTwGvBQ3/Screenshot-20260924-153817.png')}
 .r3{background-image:url('https://i.postimg.cc/jddHcJgC/conversation-chat-sms-icon-vector-design-png-115082.jpg');background-color:#fff}
@@ -49,13 +47,13 @@ input::placeholder,textarea::placeholder{color:#5a4a88}
 .nt{margin-top:10px;font-size:12px;color:#8b8bb5}
 .nt span{color:#c084fc;font-weight:bold}.ol span{color:#4ade80}
 .nt .small{font-size:10px;color:#8b8bb5;font-weight:normal;display:block;margin-top:2px}
-.shop{position:fixed;bottom:16px;left:16px;width:58px;height:58px;border-radius:50%;object-fit:cover;border:2.5px solid #a855f7;box-shadow:0 0 18px #a855f7a6;cursor:pointer;z-index:9;background:#140a32}
+.shop{position:fixed;bottom:16px;left:16px;width:58px;height:58px;border-radius:50%;object-fit:cover;border:2.5px solid #a855f7;cursor:pointer;z-index:9;background:#140a32}
 .m{position:fixed;inset:0;background:#000000eb;display:none;align-items:center;justify-content:center;z-index:9;padding:20px}
 .m.on{display:flex}
-.mb{background:linear-gradient(160deg,#12004a,#0a0014);border:1px solid #a855f7;border-radius:16px;padding:26px 22px;max-width:400px;width:100%;text-align:center;max-height:90vh;overflow-y:auto}
+.mb{background:#12004a;border:1px solid #a855f7;border-radius:16px;padding:26px 22px;max-width:400px;width:100%;text-align:center;max-height:90vh;overflow-y:auto}
 .mb h2{color:#c084fc;font-size:20px;margin-bottom:12px}
 .mb p{color:#8b8bb5;font-size:13px;margin-bottom:16px}
-.cd{background:#000;border:1px dashed #a855f7;border-radius:10px;padding:14px;font-size:13px;font-weight:bold;margin-bottom:16px;word-break:break-all;line-height:1.4;user-select:all}
+.cd{background:#000;border:1px dashed #a855f7;border-radius:10px;padding:14px;font-size:13px;font-weight:bold;margin-bottom:16px;word-break:break-all;user-select:all}
 .cb{background:none;border:1px solid #3b82f6;color:#7dabff;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-size:14px;margin-bottom:8px}
 .must{color:#ff6b6b;font-size:12px;margin-top:12px}
 .cs{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;background:#00000080;border-radius:12px;border:1px solid #ffd400;margin-top:10px}
@@ -73,7 +71,7 @@ input::placeholder,textarea::placeholder{color:#5a4a88}
 .sv{color:#4ade80;font-size:13px;min-height:18px;margin-top:6px}
 .rtabs{display:flex;gap:6px;margin-bottom:14px}
 .rtabs button{flex:1;background:none;border:1px solid #3b2a7a;color:#8b8bb5;padding:9px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:bold}
-.rtabs button.on{background:linear-gradient(90deg,#a855f7,#3b82f6);color:#fff;border-color:transparent}
+.rtabs button.on{background:#a855f7;color:#fff;border-color:transparent}
 .rp{display:none}.rp.on{display:block}
 .cp{width:90px;height:90px;border-radius:50%;border:2px solid #a855f7;object-fit:cover;margin:10px auto;display:block;background:#140a32}
 </style>
@@ -94,7 +92,7 @@ input::placeholder,textarea::placeholder{color:#5a4a88}
   <input id="rec" placeholder="الصق رمز الاسترداد" style="display:none">
   <div id="pb" style="display:none;margin-bottom:14px">
     <label for="pIn" class="pc" id="pvp">👤</label>
-    <span style="display:block;font-size:12px;color:#7a6aa8;margin-top:6px">أضف صورة (اختياري)</span>
+    <span style="display:block;font-size:12px;color:#7a6aa8;margin-top:6px">أضف صورة</span>
     <input type="file" id="pIn" accept="image/*">
   </div>
   <button class="btn" id="mb" onclick="go()">دخول</button>
@@ -125,7 +123,7 @@ input::placeholder,textarea::placeholder{color:#5a4a88}
 </div>
 
 <div id="cm" class="m"><div class="mb">
-  <h2>🔑 رمز الاسترداد</h2><p>احفظ هذا الرمز في مكان آمن</p>
+  <h2>🔑 رمز الاسترداد</h2><p>احفظه في مكان آمن</p>
   <div class="cd" id="ct">----</div>
   <button class="cb" onclick="cp()" id="cpb">📋 نسخ</button>
   <button class="btn" onclick="cnf()" id="cfb">حفظت الرمز ✓</button>
@@ -145,7 +143,7 @@ input::placeholder,textarea::placeholder{color:#5a4a88}
     <div id="rr" style="margin-top:14px"></div>
   </div>
   <div id="rp2" class="rp">
-    <p>الصق كود المتجر لاسترداد شخصيتك</p>
+    <p>الصق كود المتجر</p>
     <textarea id="rInp2" placeholder="الصق كود المتجر هنا..."></textarea>
     <button class="btn" onclick="subC()">تأكيد الشخصية</button>
     <div id="rr2" style="margin-top:14px"></div>
@@ -159,7 +157,7 @@ input::placeholder,textarea::placeholder{color:#5a4a88}
   <div class="as"><div class="st">كلمة السر (مشفّرة)</div>
     <div class="pr"><input id="ap" type="password" readonly><button onclick="tp()" id="pe">👁</button></div>
   </div>
-  <div class="as"><div class="st">صورة الحساب</div>
+  <div class="as"><div class="st">الصورة</div>
     <label for="apIn" class="pc" id="apv" style="display:block">👤</label>
     <input type="file" id="apIn" accept="image/*">
     <input id="au2" placeholder="أو رابط مباشر" style="margin-top:10px;font-size:13px">
@@ -172,59 +170,20 @@ input::placeholder,textarea::placeholder{color:#5a4a88}
 
 <script>
 var CU='https://i.postimg.cc/cHM21qYD/IMG-20261008-153917-222.jpg';
-var GC={'HESOYAM':5,'MOH6767':5,'PPPPPPP':5,'HAHAHAH':5,'6767676':10,'VONJFTG':.5,'BHYGFD':.5,'OKATVCD':.5,'IMJYCXZ':.5,'MOKHSNB':.5,'OJKLUGZ':.5,'ZUPKMH':.5,'WANRNEW':.5,'GDHHJKG':.5,'HHHHHHH':.5,'HIFOVWV':.5,'YFOWQMJ':.5,'GDHTXHA':.5,'AWQMOPA':.5,'HMFYBDK':.5,'VODMHAA':.5,'YFHOLHJ':.5,'TDOEMFH':.5};
+var GC={HESOYAM:5,MOH6767:5,PPPPPPP:5,HAHAHAH:5,'6767676':10,VONJFTG:.5,BHYGFD:.5,OKATVCD:.5,IMJYCXZ:.5,MOKHSNB:.5,OJKLUGZ:.5,ZUPKMH:.5,WANRNEW:.5,GDHHJKG:.5,HHHHHHH:.5,HIFOVWV:.5,YFOWQMJ:.5,GDHTXHA:.5,AWQMOPA:.5,HMFYBDK:.5,VODMHAA:.5,YFHOLHJ:.5,TDOEMFH:.5};
 var mode='login',pend=null,viewing=false,newPic=null,accPic,accUrl,showP=false;
 function U(){try{return JSON.parse(localStorage.getItem('tk_u'))||{}}catch(e){return{}}}
 function S(u){try{localStorage.setItem('tk_u',JSON.stringify(u));return 1}catch(e){alert('الذاكرة ممتلئة');return 0}}
 function C(){return localStorage.getItem('tk_s')}
 function $(i){return document.getElementById(i)}
-
-function cmp(f,cb){
-  var r=new FileReader();
-  r.onload=function(e){
-    var i=new Image();
-    i.onload=function(){
-      var c=document.createElement('canvas'),w=i.width,h=i.height,m=250;
-      if(w>h&&w>m){h=h*m/w;w=m}else if(h>m){w=w*m/h;h=m}
-      c.width=w;c.height=h;
-      c.getContext('2d').drawImage(i,0,0,w,h);
-      cb(c.toDataURL('image/jpeg',.7));
-    };
-    i.src=e.target.result;
-  };
-  r.readAsDataURL(f);
-}
-function mk(u,c,p,ch){
-  var o={u:u,c:c};
-  if(p&&p.indexOf&&p.indexOf('http')===0)o.p=p;
-  if(ch)o.ch=ch;
-  return btoa(encodeURIComponent(JSON.stringify(o))).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_');
-}
-function prs(x){
-  try{
-    var b=x.replace(/-/g,'+').replace(/_/g,'/');
-    while(b.length%4)b+='=';
-    var o=JSON.parse(decodeURIComponent(atob(b)));
-    if(!o||!o.u)return null;
-    return{u:o.u,c:parseFloat(o.c)||0,p:o.p||null,ch:o.ch||null};
-  }catch(e){return null}
-}
-function shopP(x){
-  try{
-    var b=x.replace(/-/g,'+').replace(/_/g,'/');
-    while(b.length%4)b+='=';
-    var o=JSON.parse(decodeURIComponent(atob(b)));
-    return{img:o.img||o.pic||o.image||o.face||o.p||o.photo||null,name:o.name||o.u||o.user||null};
-  }catch(e){}
-  if(x.indexOf('http')===0)return{img:x,name:null};
-  return{img:null,name:null};
-}
+function cmp(f,cb){var r=new FileReader();r.onload=function(e){var i=new Image();i.onload=function(){var c=document.createElement('canvas'),w=i.width,h=i.height,m=250;if(w>h&&w>m){h=h*m/w;w=m}else if(h>m){w=w*m/h;h=m}c.width=w;c.height=h;c.getContext('2d').drawImage(i,0,0,w,h);cb(c.toDataURL('image/jpeg',.7))};i.src=e.target.result};r.readAsDataURL(f)}
+function mk(u,c,p,ch){var o={u:u,c:c};if(p&&p.indexOf&&p.indexOf('http')===0)o.p=p;if(ch)o.ch=ch;return btoa(encodeURIComponent(JSON.stringify(o))).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_')}
+function prs(x){try{var b=x.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var o=JSON.parse(decodeURIComponent(atob(b)));if(!o||!o.u)return null;return{u:o.u,c:parseFloat(o.c)||0,p:o.p||null,ch:o.ch||null}}catch(e){return null}}
+function shopP(x){try{var b=x.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var o=JSON.parse(decodeURIComponent(atob(b)));return{img:o.img||o.pic||o.image||o.face||o.p||o.photo||null,name:o.name||o.u||o.user||null}}catch(e){}if(x.indexOf('http')===0)return{img:x,name:null};return{img:null,name:null}}
 
 function tab(m){
   mode=m;
-  $('tl').classList.toggle('on',m==='login');
-  $('ts').classList.toggle('on',m==='signup');
-  $('tr').classList.toggle('on',m==='recover');
+  $('tl').classList.toggle('on',m==='login');$('ts').classList.toggle('on',m==='signup');$('tr').classList.toggle('on',m==='recover');
   $('u').style.display=m==='recover'?'none':'block';
   $('p').style.display=m==='recover'?'none':'block';
   $('p2').style.display=m==='signup'?'block':'none';
@@ -233,10 +192,7 @@ function tab(m){
   $('mb').textContent=m==='signup'?'إنشاء الحساب':m==='recover'?'استرداد':'دخول';
   $('m').textContent='';
 }
-$('pIn').onchange=function(e){
-  if(!e.target.files[0])return;
-  cmp(e.target.files[0],function(d){newPic=d;$('pvp').innerHTML='<img src="'+d+'">'});
-};
+$('pIn').onchange=function(e){if(!e.target.files[0])return;cmp(e.target.files[0],function(d){newPic=d;$('pvp').innerHTML='<img src="'+d+'">'})};
 
 function go(){
   var u=$('u').value.trim(),p=$('p').value,p2=$('p2').value,rc=$('rec').value.trim(),us=U();
@@ -245,15 +201,8 @@ function go(){
     if(!rc)return $('m').textContent='الصق الرمز';
     var q=prs(rc);
     if(!q)return $('m').textContent='الرمز غير صحيح';
-    if(us[q.u]){
-      us[q.u].coins=q.c;
-      if(q.p)us[q.u].pic=q.p;
-      if(q.ch)us[q.u].character=q.ch;
-      S(us);in_(q.u);
-    }else{
-      us[q.u]={password:'',code:'',pic:q.p||null,coins:q.c,usedCodes:[],character:q.ch||null};
-      S(us);in_(q.u);
-    }
+    if(us[q.u]){us[q.u].coins=q.c;if(q.p)us[q.u].pic=q.p;if(q.ch)us[q.u].character=q.ch;S(us);in_(q.u)}
+    else{us[q.u]={password:'',code:'',pic:q.p||null,coins:q.c,usedCodes:[],character:q.ch||null};S(us);in_(q.u)}
     return;
   }
   if(!u||!p)return $('m').textContent='اكتب الاسم وكلمة السر';
@@ -265,8 +214,7 @@ function go(){
     pend=u;viewing=false;
     $('ct').textContent=mk(u,0,null,null);
     $('mn').style.display='block';
-    $('cfb').textContent='حفظت الرمز ✓';
-    $('cfb').onclick=cnf;
+    $('cfb').textContent='حفظت الرمز ✓';$('cfb').onclick=cnf;
     $('cm').classList.add('on');
   }else{
     if(!us[u])return $('m').textContent='الاسم غير موجود';
@@ -274,91 +222,26 @@ function go(){
     in_(u);
   }
 }
-function cp(){
-  var t=$('ct').textContent,d=function(){$('cpb').textContent='✅ تم';setTimeout(function(){$('cpb').textContent='📋 نسخ'},1500)};
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(d).catch(function(){fb(t,d)});
-  else fb(t,d);
-}
-function fb(t,cb){
-  var a=document.createElement('textarea');
-  a.value=t;a.style.position='fixed';a.style.opacity='0';
-  document.body.appendChild(a);a.focus();a.select();
-  try{document.execCommand('copy');cb()}catch(e){}
-  document.body.removeChild(a);
-}
+function cp(){var t=$('ct').textContent,d=function(){$('cpb').textContent='✅ تم';setTimeout(function(){$('cpb').textContent='📋 نسخ'},1500)};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(d).catch(function(){fb(t,d)});else fb(t,d)}
+function fb(t,cb){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.focus();a.select();try{document.execCommand('copy');cb()}catch(e){}document.body.removeChild(a)}
 function cnf(){$('cm').classList.remove('on');if(!viewing&&pend){in_(pend);pend=null}}
-function myCode(){
-  var u=C(),us=U();if(!u||!us[u])return;
-  viewing=true;
-  $('ct').textContent=mk(u,us[u].coins||0,us[u].pic,us[u].character);
-  $('mn').style.display='none';
-  $('cfb').textContent='إغلاق';
-  $('cfb').onclick=function(){$('cm').classList.remove('on')};
-  $('cm').classList.add('on');
-}
+function myCode(){var u=C(),us=U();if(!u||!us[u])return;viewing=true;$('ct').textContent=mk(u,us[u].coins||0,us[u].pic,us[u].character);$('mn').style.display='none';$('cfb').textContent='إغلاق';$('cfb').onclick=function(){$('cm').classList.remove('on')};$('cm').classList.add('on')}
 function openR(){$('rInp').value='';$('rr').innerHTML='';$('rInp2').value='';$('rr2').innerHTML='';rtab(1);$('rm').classList.add('on')}
 function cls(id){$(id).classList.remove('on')}
-function rtab(n){
-  $('r1').classList.toggle('on',n===1);$('r2').classList.toggle('on',n===2);
-  $('rp1').classList.toggle('on',n===1);$('rp2').classList.toggle('on',n===2);
-}
-function subR(){
-  var u=C(),us=U(),i=$('rInp').value.trim().toUpperCase();
-  if(!u||!us[u]||!i)return;
-  if(GC[i]!==undefined){
-    us[u].usedCodes=us[u].usedCodes||[];
-    if(us[u].usedCodes.indexOf(i)!==-1)return $('rr').innerHTML='<div style="color:#ff6b6b">⚠️ استخدمت هذا الكود</div>';
-    us[u].coins=(us[u].coins||0)+GC[i];
-    us[u].usedCodes.push(i);
-    S(us);upC();
-    $('rr').innerHTML='<div class="ok">🎉 مبروك!</div><div class="gm">حصلت على '+GC[i]+' عملة</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">'+us[u].coins+'</div><div class="l">مجموع عملاتك</div></div></div>';
-    return;
-  }
-  $('rr').innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';
-}
-function subC(){
-  var u=C(),us=U(),i=$('rInp2').value.trim();
-  if(!u||!us[u])return $('rr2').innerHTML='<div style="color:#ff6b6b">سجّل دخول أولاً</div>';
-  if(!i)return $('rr2').innerHTML='<div style="color:#ff6b6b">الصق كود المتجر</div>';
-  var p=shopP(i);
-  us[u].character=i;
-  if(p.img){us[u].pic=p.img;$('up').innerHTML='<img src="'+p.img+'">'}
-  S(us);
-  var h='<div class="ok">✅ تم استرداد الشخصية</div>';
-  if(p.name)h+='<div class="gm">👤 '+p.name+'</div>';
-  if(p.img)h+='<img class="cp" src="'+p.img+'" onerror="this.style.display=\'none\'">';
-  h+='<p style="font-size:12px;color:#8b8bb5;margin-top:8px">📦 محفوظة مع حسابك</p>';
-  $('rr2').innerHTML=h;
-}
+function rtab(n){$('r1').classList.toggle('on',n===1);$('r2').classList.toggle('on',n===2);$('rp1').classList.toggle('on',n===1);$('rp2').classList.toggle('on',n===2)}
+function subR(){var u=C(),us=U(),i=$('rInp').value.trim().toUpperCase();if(!u||!us[u]||!i)return;if(GC[i]!==undefined){us[u].usedCodes=us[u].usedCodes||[];if(us[u].usedCodes.indexOf(i)!==-1)return $('rr').innerHTML='<div style="color:#ff6b6b">⚠️ استخدمت هذا الكود</div>';us[u].coins=(us[u].coins||0)+GC[i];us[u].usedCodes.push(i);S(us);upC();$('rr').innerHTML='<div class="ok">🎉 مبروك!</div><div class="gm">حصلت على '+GC[i]+' عملة</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">'+us[u].coins+'</div><div class="l">مجموع عملاتك</div></div></div>';return}$('rr').innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>'}
+function subC(){var u=C(),us=U(),i=$('rInp2').value.trim();if(!u||!us[u])return $('rr2').innerHTML='<div style="color:#ff6b6b">سجّل دخول أولاً</div>';if(!i)return $('rr2').innerHTML='<div style="color:#ff6b6b">الصق كود المتجر</div>';var p=shopP(i);us[u].character=i;if(p.img){us[u].pic=p.img;$('up').innerHTML='<img src="'+p.img+'">'}S(us);var h='<div class="ok">✅ تم استرداد الشخصية</div>';if(p.name)h+='<div class="gm">👤 '+p.name+'</div>';if(p.img)h+='<img class="cp" src="'+p.img+'" onerror="this.style.display=\'none\'">';h+='<p style="font-size:12px;color:#8b8bb5;margin-top:8px">📦 محفوظة مع حسابك</p>';$('rr2').innerHTML=h}
 function upC(){var u=C(),us=U();$('cc').textContent=(u&&us[u]&&us[u].coins)||0}
-function in_(u){
-  localStorage.setItem('tk_s',u);
-  var d=U()[u]||{};
-  $('wn').textContent=u;
-  $('up').innerHTML=d.pic?'<img src="'+d.pic+'">':'👤';
-  upC();
-  $('a').classList.remove('on');$('g').classList.add('on');
-  $('rec').value='';$('pvp').innerHTML='👤';newPic=null;$('m').textContent='';
-}
+function in_(u){localStorage.setItem('tk_s',u);var d=U()[u]||{};$('wn').textContent=u;$('up').innerHTML=d.pic?'<img src="'+d.pic+'">':'👤';upC();$('a').classList.remove('on');$('g').classList.add('on');$('rec').value='';$('pvp').innerHTML='👤';newPic=null;$('m').textContent=''}
 function tg(e){e.stopPropagation();$('sm').classList.toggle('on')}
 document.addEventListener('click',function(e){if(!e.target.closest('.sw'))$('sm').classList.remove('on')});
-function openA(){
-  var u=C(),us=U();if(!u||!us[u])return;
-  accPic=undefined;accUrl=undefined;showP=false;
-  $('sm').classList.remove('on');
-  $('au').value=u;
-  $('ap').value=us[u].password?btoa(encodeURIComponent(us[u].password)):'—';
-  $('ap').type='password';$('pe').textContent='👁';
-  $('apv').innerHTML=us[u].pic?'<img src="'+us[u].pic+'">':'👤';
-  $('au2').value='';$('av').textContent='';
-  $('am').classList.add('on');
-}
+function openA(){var u=C(),us=U();if(!u||!us[u])return;accPic=undefined;accUrl=undefined;showP=false;$('sm').classList.remove('on');$('au').value=u;$('ap').value=us[u].password?btoa(encodeURIComponent(us[u].password)):'—';$('ap').type='password';$('pe').textContent='👁';$('apv').innerHTML=us[u].pic?'<img src="'+us[u].pic+'">':'👤';$('au2').value='';$('av').textContent='';$('am').classList.add('on')}
 function tp(){showP=!showP;$('ap').type=showP?'text':'password';$('pe').textContent=showP?'🙈':'👁'}
-$('apIn').onchange=function(e){
-  if(!e.target.files[0])return;
-  cmp(e.target.files[0],function(d){accPic=d;accUrl=undefined;$('apv').innerHTML='<img src="'+d+'">'});
-};
+$('apIn').onchange=function(e){if(!e.target.files[0])return;cmp(e.target.files[0],function(d){accPic=d;accUrl=undefined;$('apv').innerHTML='<img src="'+d+'">'})};
 function apU(){var v=$('au2').value.trim();if(!v)return;accUrl=v;accPic=undefined;$('apv').innerHTML='<img src="'+v+'">'}
-function svA(){
-  var u=C(),us=U();if(!u||!us[u])return;
-  var nn=
+function svA(){var u=C(),us=U();if(!u||!us[u])return;var nn=$('au').value.trim();if(!nn)return $('av').textContent='⚠️ اكتب اسم';if(nn!==u&&us[nn])return $('av').textContent='⚠️ الاسم محجوز';if(accPic!==undefined)us[u].pic=accPic;if(accUrl!==undefined)us[u].pic=accUrl;var fn=u;if(nn!==u){us[nn]=us[u];delete us[u];localStorage.setItem('tk_s',nn);$('wn').textContent=nn;fn=nn}if(!S(us))return;$('up').innerHTML=us[fn].pic?'<img src="'+us[fn].pic+'">':'👤';$('av').textContent='✅ تم الحفظ';setTimeout(function(){cls('am')},800)}
+function out(){localStorage.removeItem('tk_s');$('sm').classList.remove('on');$('g').classList.remove('on');$('a').classList.add('on');$('u').value='';$('p').value='';$('p2').value='';$('rec').value='';tab('login')}
+window.onload=function(){var s=C();if(s&&U()[s])in_(s)};
+</script>
+</body>
+</html>
