@@ -73,7 +73,6 @@ input:focus,textarea:focus{border-color:#a855f7}
 .rtabs button{flex:1;background:none;border:1px solid #3b2a7a;color:#8b8bb5;padding:9px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:bold}
 .rtabs button.on{background:#a855f7;color:#fff;border-color:transparent}
 .rp{display:none}.rp.on{display:block}
-.cp{width:90px;height:90px;border-radius:50%;border:2px solid #a855f7;object-fit:cover;margin:10px auto;display:block;background:#140a32}
 </style>
 </head>
 <body>
@@ -143,9 +142,9 @@ input:focus,textarea:focus{border-color:#a855f7}
     <div id="rr" style="margin-top:14px"></div>
   </div>
   <div id="rp2" class="rp">
-    <p>الصق كود المتجر</p>
+    <p>الصق كود المتجر (يحدّث العملات)</p>
     <textarea id="rInp2" placeholder="الصق كود المتجر هنا..."></textarea>
-    <button class="btn" onclick="subC()">تأكيد الشخصية</button>
+    <button class="btn" onclick="subC()">تأكيد</button>
     <div id="rr2" style="margin-top:14px"></div>
   </div>
   <button class="sb2" onclick="cls('rm')" style="margin-top:16px">إغلاق</button>
@@ -179,7 +178,24 @@ function $(i){return document.getElementById(i)}
 function cmp(f,cb){var r=new FileReader();r.onload=function(e){var i=new Image();i.onload=function(){var c=document.createElement('canvas'),w=i.width,h=i.height,m=250;if(w>h&&w>m){h=h*m/w;w=m}else if(h>m){w=w*m/h;h=m}c.width=w;c.height=h;c.getContext('2d').drawImage(i,0,0,w,h);cb(c.toDataURL('image/jpeg',.7))};i.src=e.target.result};r.readAsDataURL(f)}
 function mk(u,c,p,ch){var o={u:u,c:c};if(p&&p.indexOf&&p.indexOf('http')===0)o.p=p;if(ch)o.ch=ch;return btoa(encodeURIComponent(JSON.stringify(o))).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_')}
 function prs(x){try{var b=x.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var o=JSON.parse(decodeURIComponent(atob(b)));if(!o||!o.u)return null;return{u:o.u,c:parseFloat(o.c)||0,p:o.p||null,ch:o.ch||null}}catch(e){return null}}
-function shopP(x){try{var b=x.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var o=JSON.parse(decodeURIComponent(atob(b)));return{img:o.img||o.pic||o.image||o.face||o.p||o.photo||null,name:o.name||o.u||o.user||null}}catch(e){}if(x.indexOf('http')===0)return{img:x,name:null};return{img:null,name:null}}
+
+/* ==== يقرأ العملات فقط من كود المتجر ==== */
+function readCoins(x){
+  try{
+    var b=x.replace(/-/g,'+').replace(/_/g,'/');
+    while(b.length%4)b+='=';
+    var o=JSON.parse(decodeURIComponent(atob(b)));
+    var v=o.coins;
+    if(v===undefined)v=o.money;
+    if(v===undefined)v=o.gold;
+    if(v===undefined)v=o.balance;
+    if(v===undefined)v=o.c;
+    if(v===undefined)v=o.coin;
+    if(v===undefined)return null;
+    v=parseFloat(v);
+    return isNaN(v)?null:v;
+  }catch(e){return null}
+}
 
 function tab(m){
   mode=m;
@@ -230,7 +246,19 @@ function openR(){$('rInp').value='';$('rr').innerHTML='';$('rInp2').value='';$('
 function cls(id){$(id).classList.remove('on')}
 function rtab(n){$('r1').classList.toggle('on',n===1);$('r2').classList.toggle('on',n===2);$('rp1').classList.toggle('on',n===1);$('rp2').classList.toggle('on',n===2)}
 function subR(){var u=C(),us=U(),i=$('rInp').value.trim().toUpperCase();if(!u||!us[u]||!i)return;if(GC[i]!==undefined){us[u].usedCodes=us[u].usedCodes||[];if(us[u].usedCodes.indexOf(i)!==-1)return $('rr').innerHTML='<div style="color:#ff6b6b">⚠️ استخدمت هذا الكود</div>';us[u].coins=(us[u].coins||0)+GC[i];us[u].usedCodes.push(i);S(us);upC();$('rr').innerHTML='<div class="ok">🎉 مبروك!</div><div class="gm">حصلت على '+GC[i]+' عملة</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">'+us[u].coins+'</div><div class="l">مجموع عملاتك</div></div></div>';return}$('rr').innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>'}
-function subC(){var u=C(),us=U(),i=$('rInp2').value.trim();if(!u||!us[u])return $('rr2').innerHTML='<div style="color:#ff6b6b">سجّل دخول أولاً</div>';if(!i)return $('rr2').innerHTML='<div style="color:#ff6b6b">الصق كود المتجر</div>';var p=shopP(i);us[u].character=i;if(p.img){us[u].pic=p.img;$('up').innerHTML='<img src="'+p.img+'">'}S(us);var h='<div class="ok">✅ تم استرداد الشخصية</div>';if(p.name)h+='<div class="gm">👤 '+p.name+'</div>';if(p.img)h+='<img class="cp" src="'+p.img+'" onerror="this.style.display=\'none\'">';h+='<p style="font-size:12px;color:#8b8bb5;margin-top:8px">📦 محفوظة مع حسابك</p>';$('rr2').innerHTML=h}
+
+/* ==== استرداد الشخصية: يقرأ العملات فقط ==== */
+function subC(){
+  var u=C(),us=U(),i=$('rInp2').value.trim();
+  if(!u||!us[u])return $('rr2').innerHTML='<div style="color:#ff6b6b">سجّل دخول أولاً</div>';
+  if(!i)return $('rr2').innerHTML='<div style="color:#ff6b6b">الصق كود المتجر</div>';
+  var c=readCoins(i);
+  if(c===null)return $('rr2').innerHTML='<div style="color:#ff6b6b">❌ الكود ما فيه عملات</div>';
+  us[u].coins=c;
+  S(us);upC();
+  $('rr2').innerHTML='<div class="ok">✅ تم التحديث</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">'+c+'</div><div class="l">عملاتك الآن</div></div></div>';
+}
+
 function upC(){var u=C(),us=U();$('cc').textContent=(u&&us[u]&&us[u].coins)||0}
 function in_(u){localStorage.setItem('tk_s',u);var d=U()[u]||{};$('wn').textContent=u;$('up').innerHTML=d.pic?'<img src="'+d.pic+'">':'👤';upC();$('a').classList.remove('on');$('g').classList.add('on');$('rec').value='';$('pvp').innerHTML='👤';newPic=null;$('m').textContent=''}
 function tg(e){e.stopPropagation();$('sm').classList.toggle('on')}
