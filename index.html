@@ -18,7 +18,7 @@ h1{font-size:30px;margin-bottom:6px;color:#c084fc}
 input{width:100%;padding:12px;margin-bottom:12px;background:#140a32cc;border:1px solid #2a1a5e;border-radius:8px;color:#fff;font-size:15px;outline:none;text-align:center}
 input:focus{border-color:#a855f7}
 #rec{letter-spacing:3px;font-weight:bold}
-#rInp{letter-spacing:3px;font-weight:bold;font-size:14px}
+#rInp{letter-spacing:2px;font-weight:bold;font-size:14px}
 .btn{width:100%;padding:13px;border:none;border-radius:8px;background:linear-gradient(90deg,#a855f7,#3b82f6);color:#fff;font-weight:bold;font-size:16px;cursor:pointer;margin-top:6px}
 .msg{min-height:20px;font-size:14px;margin-top:12px;color:#ff6b6b}
 #g{padding-top:200px;position:relative;min-height:100vh}
@@ -118,7 +118,7 @@ input:focus{border-color:#a855f7}
 <div class="row">
 <div class="rw"><a class="r r1" href="https://hesoyam14moh-dot.github.io/monster-game/" target="_blank"></a><p class="nt"><span>👹 لعبة الوحش</span><span class="small">أوف لاين</span></p></div>
 <div class="rw"><a class="r r2" href="https://hesoyam14moh-dot.github.io/sohtar/" target="_blank"></a><p class="nt ol"><span>🌐 أونلاين</span></p></div>
-<div class="rw"><a class="r r3" href="https://hesoyam14moh-dot.github.io/chat/" target="_blank"></a><p class="nt"><span>💬 شات</span></p></div>
+<div class="rw"><a class="r r3" href="https://hesoyam14moh-dot.github.io/chat/" target="_blank"></a><p class="nt">💬 شات</p></div>
 <div class="rw"><a class="r r4" href="https://hesoyam14moh-dot.github.io/parkour/" target="_blank"></a><p class="nt"><span>🏃 باركور</span><span class="small">أونلاين + أوف لاين</span></p></div>
 </div>
 </div>
@@ -282,23 +282,33 @@ function myCode(){
 function openR(){$('rInp').value='';$('rr').innerHTML='';on('rm');}
 function cls(id){off(id);}
 
-/* ====== التحقق من الكود ====== */
 function checkCode(code){
-  /* الكود الخاص */
   if(code === '6767676') return 10;
 
-  /* النمط 1: X?#Y=(N)!中  → N - 5 */
-  var m1 = code.match(/^[A-Za-z]\?#[A-Za-z]=\((\d+)\)!.$/);
-  if(m1){
-    var n1 = parseInt(m1[1],10) - 5;
-    if(n1 > 0) return n1;
+  var m = code.match(/=\((\d+(?:\.\d+)?)\)/);
+  if(!m) return null;
+  
+  var num = parseFloat(m[1]);
+  var coins = num - 5;
+  if(coins <= 0) return null;
+
+  var eqPos = code.indexOf('=(');
+  var closePos = code.indexOf(')', eqPos);
+  if(eqPos < 0 || closePos < 0) return null;
+
+  var before = code.substring(0, eqPos);
+  var after = code.substring(closePos + 1);
+
+  if(before.length === 4 && before.charAt(1) === '?' && before.charAt(2) === '#'){
+    if(after.length === 2 && after.charAt(0) === '!'){
+      return coins;
+    }
   }
 
-  /* النمط 2: XY=(N)?$#中  → N - 5 */
-  var m2 = code.match(/^[A-Za-z][A-Za-z]=\((\d+)\)\?\$#.$/);
-  if(m2){
-    var n2 = parseInt(m2[1],10) - 5;
-    if(n2 > 0) return n2;
+  if(before.length === 2){
+    if(after.length === 4 && after.charAt(0) === '?' && after.charAt(1) === '$' && after.charAt(2) === '#'){
+      return coins;
+    }
   }
 
   return null;
