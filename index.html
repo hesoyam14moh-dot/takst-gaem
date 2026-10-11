@@ -299,14 +299,17 @@ function checkCode(code){
   var before = code.substring(0, eqPos);
   var after = code.substring(closePos + 1);
 
+  /* النمط 1: X?#Y=(N)!中 */
   if(before.length === 4 && before.charAt(1) === '?' && before.charAt(2) === '#'){
     if(after.length === 2 && after.charAt(0) === '!'){
       return coins;
     }
   }
 
+  /* النمط 2: XY=(N)?$#中  أو  XY=(N)!$#中 */
   if(before.length === 2){
-    if(after.length === 4 && after.charAt(0) === '?' && after.charAt(1) === '$' && after.charAt(2) === '#'){
+    var c0 = after.charAt(0);
+    if(after.length === 4 && (c0 === '?' || c0 === '!') && after.charAt(1) === '$' && after.charAt(2) === '#'){
       return coins;
     }
   }
