@@ -1,451 +1,386 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>متاهة</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TAKST</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,sans-serif}
-html,body{width:100%;height:100%;overflow:hidden;background:#000;color:#fff;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
-canvas{display:block}
-#menu{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0a1f;gap:16px;padding:20px;z-index:100}
-.btn{background:#a855f7;color:#fff;border:none;padding:16px 40px;font-size:18px;border-radius:10px;font-weight:bold;min-width:220px}
-.btn.red{background:#d04060}
-#codeInput{width:200px;padding:16px;font-size:30px;text-align:center;border-radius:12px;border:2px solid #6a4cba;letter-spacing:14px;background:#1a1030;color:#fff;outline:none;font-family:monospace}
-#roomCode{font-size:56px;font-weight:bold;letter-spacing:16px;color:#e9d5ff;padding:18px 34px;background:#1a1030;border:3px solid #a855f7;border-radius:16px;font-family:monospace}
-#status{font-size:14px;color:#8b7ab8;text-align:center;min-height:20px;max-width:90%;line-height:1.8}
-#roomBadge{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:rgba(168,85,247,.9);padding:10px 24px;border-radius:12px;font-size:22px;font-weight:bold;color:#fff;z-index:15;display:none;font-family:monospace;letter-spacing:6px}
-#msg{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:rgba(168,85,247,.95);padding:12px 24px;border-radius:12px;font-size:18px;display:none;z-index:20;font-weight:bold;white-space:nowrap}
-#role{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);padding:8px 18px;border-radius:10px;font-size:15px;display:none;z-index:14;color:#ffcc44;font-weight:bold}
-#hp{position:fixed;top:14px;left:14px;background:rgba(0,0,0,.7);padding:8px 16px;border-radius:10px;font-size:16px;font-weight:bold;color:#ff6060;z-index:15;display:none;font-family:monospace}
-#stick{position:fixed;left:20px;bottom:20px;width:150px;height:90px;border-radius:45px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.3);z-index:10;display:none}
-#thumb{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:30px;background:#a855f7;opacity:.9}
-#fire{position:fixed;right:20px;bottom:140px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f06080,#a02040);border:2px solid #ff4060;color:#fff;font-weight:bold;font-size:20px;display:none;align-items:center;justify-content:center;z-index:10}
-#sprint{position:fixed;right:20px;bottom:20px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#60c0ff,#2060a0);border:2px solid #4090ff;color:#fff;font-weight:bold;font-size:18px;display:none;align-items:center;justify-content:center;z-index:10;transition:background .15s}
-#sprint.on{background:radial-gradient(circle at 35% 30%,#60ff90,#20a060);border-color:#40ff80;box-shadow:0 0 25px rgba(80,255,120,.8)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
+body{background:linear-gradient(160deg,#0a0014,#12004a,#001a4d);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.s{display:none;width:100%;max-width:600px;padding:24px;text-align:center}
+.s.on{display:block}
+.logo{width:180px;height:180px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid #a855f7}
+h1{font-size:30px;margin-bottom:6px;color:#c084fc}
+.sub{color:#8b8bb5;font-size:14px;margin-bottom:22px}
+.tabs{display:flex;margin-bottom:18px;border-bottom:1px solid #2a1a5e}
+.tabs button{flex:1;background:none;border:none;color:#7a6aa8;padding:10px;font-size:14px;cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.on{color:#c084fc;border-bottom-color:#a855f7}
+input{width:100%;padding:12px;margin-bottom:12px;background:#140a32cc;border:1px solid #2a1a5e;border-radius:8px;color:#fff;font-size:15px;outline:none;text-align:center}
+input:focus{border-color:#a855f7}
+#rec{letter-spacing:3px;font-weight:bold}
+#rInp{letter-spacing:2px;font-weight:bold;font-size:14px}
+.btn{width:100%;padding:13px;border:none;border-radius:8px;background:linear-gradient(90deg,#a855f7,#3b82f6);color:#fff;font-weight:bold;font-size:16px;cursor:pointer;margin-top:6px}
+.msg{min-height:20px;font-size:14px;margin-top:12px;color:#ff6b6b}
+#g{padding-top:200px;position:relative;min-height:100vh}
+.bar{position:fixed;top:12px;right:12px;display:flex;gap:8px;align-items:center;z-index:9}
+.coin{display:flex;gap:6px;align-items:center;background:#000000bf;padding:6px 14px;border-radius:20px;border:1.5px solid #ffd400;font-weight:bold;font-size:16px}
+.coin img{width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid #ffd400}
+.coin .v{color:#ffd400}
+.rb{background:linear-gradient(90deg,#a855f7,#3b82f6);border:none;color:#fff;font-weight:bold;font-size:12px;padding:8px 12px;border-radius:20px;cursor:pointer}
+.sw{position:relative}
+.sb{width:38px;height:38px;border-radius:50%;background:#000000bf;border:1.5px solid #a855f7;color:#c084fc;cursor:pointer;font-size:17px}
+.sm{position:absolute;top:46px;left:0;background:#1a0a4a;border:1.5px solid #a855f7;border-radius:12px;padding:8px;min-width:180px;display:none}
+.sm.on{display:block}
+.sm button{width:100%;padding:12px;background:none;border:none;color:#c084fc;font-size:14px;font-weight:bold;cursor:pointer;border-radius:8px;text-align:right}
+.sm button.d{color:#ff8080}
+.tb{position:absolute;top:100px;left:14px;right:14px;display:flex;justify-content:flex-end}
+.tu{display:flex;flex-direction:column;align-items:center;gap:6px}
+.nm{font-size:22px;font-weight:bold;color:#c084fc;order:2;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.up{width:90px;height:90px;border-radius:50%;border:2px solid #a855f7;background:#140a32;display:flex;align-items:center;justify-content:center;font-size:38px;overflow:hidden;order:1}
+.up img{width:100%;height:100%;object-fit:cover}
+.sb2{background:none;border:1px solid #3b2a7a;color:#8b8bb5;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 30px}
+.rw{display:flex;flex-direction:column;align-items:center}
+.r{width:100%;height:120px;border-radius:14px;cursor:pointer;display:block;background-size:cover;background-position:center}
+.r1{background-image:url('https://i.postimg.cc/L5SrwVqN/IMG-20261007-203138-551.jpg')}
+.r2{background-image:url('https://i.postimg.cc/fTwGvBQ3/Screenshot-20260924-153817.png')}
+.r3{background-image:url('https://i.postimg.cc/jddHcJgC/conversation-chat-sms-icon-vector-design-png-115082.jpg');background-color:#fff}
+.r4{background-image:url('https://i.postimg.cc/bYSS5zxd/IMG-20261008-155731-897.jpg')}
+.r5{background-image:url('https://i.postimg.cc/rszRJpHm/IMG-20261012-203245-359.jpg')}
+.r5w{grid-column:span 2}
+.nt{margin-top:10px;font-size:12px;color:#8b8bb5}
+.nt span{color:#c084fc;font-weight:bold}
+.ol span{color:#4ade80}
+.nt .small{font-size:10px;color:#8b8bb5;display:block;margin-top:2px}
+.shop{position:fixed;bottom:16px;left:16px;width:58px;height:58px;border-radius:50%;object-fit:cover;border:2.5px solid #a855f7;cursor:pointer;z-index:9;background:#140a32}
+.m{position:fixed;left:0;top:0;right:0;bottom:0;background:#000000eb;display:none;align-items:center;justify-content:center;z-index:99;padding:20px}
+.m.on{display:flex}
+.mb{background:#12004a;border:1px solid #a855f7;border-radius:16px;padding:26px 22px;max-width:400px;width:100%;text-align:center;max-height:90vh;overflow-y:auto}
+.mb h2{color:#c084fc;font-size:20px;margin-bottom:12px}
+.mb p{color:#8b8bb5;font-size:13px;margin-bottom:16px}
+.cd{background:#000;border:1px dashed #a855f7;border-radius:10px;padding:14px;font-size:13px;font-weight:bold;margin-bottom:16px;word-break:break-all}
+.cb{background:none;border:1px solid #3b82f6;color:#7dabff;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-size:14px;margin-bottom:8px}
+.must{color:#ff6b6b;font-size:12px;margin-top:12px}
+.cs{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;background:#00000080;border-radius:12px;border:1px solid #ffd400;margin-top:10px}
+.cs img{width:56px;height:56px;border-radius:50%;border:2px solid #ffd400}
+.cs .v{font-size:32px;font-weight:bold;color:#ffd400}
+.cs .l{font-size:12px;color:#8b8bb5}
+.ok{font-size:18px;font-weight:bold;color:#4ade80;margin-bottom:6px}
+.gm{font-size:15px;color:#ffd400;font-weight:bold;margin-bottom:6px}
+.pc{width:100px;height:100px;border-radius:50%;border:2px dashed #3b2a7a;display:inline-flex;align-items:center;justify-content:center;font-size:30px;color:#5a4a88;cursor:pointer;overflow:hidden;background:#140a3280}
+.pc img{width:100%;height:100%;object-fit:cover}
+#pIn,#apIn{display:none}
+.pr{display:flex;gap:8px;margin-bottom:12px}
+.pr input{flex:1;margin:0}
+.pr button{background:none;border:1px solid #3b2a7a;color:#c084fc;width:44px;border-radius:8px;cursor:pointer;font-size:18px}
+.as{text-align:right;margin-bottom:14px}
+.st{color:#c084fc;font-size:13px;font-weight:bold;margin-bottom:8px}
+.sv{color:#4ade80;font-size:13px;min-height:18px;margin-top:6px}
 </style>
 </head>
 <body>
-<div id="menu">
- <button class="btn" id="createBtn">إنشاء (أنا الوحش)</button>
- <button class="btn" id="joinBtn">انضمام (أنا الهارب)</button>
- <input id="codeInput" maxlength="3" placeholder="123" inputmode="numeric" style="display:none" autocomplete="off"/>
- <button class="btn" id="joinOk" style="display:none">دخول</button>
- <button class="btn red" id="retryBtn" style="display:none">إعادة المحاولة</button>
- <div id="roomCode" style="display:none"></div>
- <div id="status">اختر: إنشاء غرفة أو انضمام</div>
+
+<div id="a" class="s on">
+<img class="logo" src="https://i.postimg.cc/qvNrntw5/IMG-20261008-204740-452.jpg">
+<h1>TAKST</h1>
+<p class="sub">سجّل دخولك للبدء</p>
+<div class="tabs">
+<button id="tl" class="on" onclick="tab('login')">دخول</button>
+<button id="ts" onclick="tab('signup')">حساب جديد</button>
+<button id="tr" onclick="tab('recover')">استرداد</button>
 </div>
-<div id="roomBadge"></div><div id="msg"></div><div id="role"></div><div id="hp">❤️ 100</div>
-<div id="stick"><div id="thumb"></div></div>
-<div id="fire">ضرب</div><div id="sprint">جري</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.0/peerjs.min.js"></script>
+<input id="u" placeholder="اسم المستخدم">
+<input id="p" type="password" placeholder="كلمة السر">
+<input id="p2" type="password" placeholder="تأكيد كلمة السر" style="display:none">
+<input id="rec" placeholder="الصق رمز الاسترداد" style="display:none">
+<div id="pb" style="display:none;margin-bottom:14px">
+<label for="pIn" class="pc" id="pvp">👤</label>
+<span style="display:block;font-size:12px;color:#7a6aa8;margin-top:6px">أضف صورة</span>
+<input type="file" id="pIn" accept="image/*" onchange="onPic(event)">
+</div>
+<button class="btn" id="mb" onclick="go()">دخول</button>
+<div class="msg" id="m"></div>
+</div>
+
+<div id="g" class="s">
+<div class="bar">
+<div class="coin"><img src="https://i.postimg.cc/cHM21qYD/IMG-20261008-153917-222.jpg"><span class="v" id="cc">0</span></div>
+<button class="rb" onclick="openR()">💰 استرداد</button>
+<div class="sw">
+<button class="sb" onclick="tg(event)">⚙️</button>
+<div class="sm" id="sm">
+<button onclick="myCode()">🔑 عرض الرمز</button>
+<button onclick="openA()">👤 معلومات الحساب</button>
+<button onclick="out()" class="d">🚪 تسجيل الخروج</button>
+</div>
+</div>
+</div>
+<div class="tb"><div class="tu"><div class="up" id="up">👤</div><span class="nm" id="wn"></span></div></div>
+<a href="https://hesoyam14moh-dot.github.io/shoop/" target="_blank"><img class="shop" src="https://i.postimg.cc/85Q19mpz/IMG-20261010-091950-214.jpg"></a>
+<div class="row">
+<div class="rw"><a class="r r1" href="https://hesoyam14moh-dot.github.io/monster-game/" target="_blank"></a><p class="nt"><span>👹 لعبة الوحش</span><span class="small">أوف لاين</span></p></div>
+<div class="rw"><a class="r r2" href="https://hesoyam14moh-dot.github.io/sohtar/" target="_blank"></a><p class="nt ol"><span>🌐 أونلاين</span></p></div>
+<div class="rw"><a class="r r3" href="https://hesoyam14moh-dot.github.io/chat/" target="_blank"></a><p class="nt">💬 شات</p></div>
+<div class="rw"><a class="r r4" href="https://hesoyam14moh-dot.github.io/parkour/" target="_blank"></a><p class="nt"><span>🏃 باركور</span><span class="small">أونلاين + أوف لاين</span></p></div>
+<div class="rw r5w"><a class="r r5" href="https://hesoyam14moh-dot.github.io/back-room/" target="_blank"></a><p class="nt"><span>🚪 المتاهة</span><span class="small">أونلاين</span></p></div>
+</div>
+</div>
+
+<div id="cm" class="m"><div class="mb">
+<h2>🔑 رمز الاسترداد</h2><p>احفظه في مكان آمن</p>
+<div class="cd" id="ct">----</div>
+<button class="cb" onclick="cp()" id="cpb">📋 نسخ</button>
+<button class="btn" onclick="cnf()" id="cfb">حفظت الرمز ✓</button>
+<p class="must" id="mn">⚠️ إجباري: احفظ الرمز</p>
+</div></div>
+
+<div id="rm" class="m"><div class="mb">
+<h2>💰 استرداد العملات</h2>
+<p>أدخل الكود</p>
+<input id="rInp" placeholder="الصق الكود هنا">
+<button class="btn" onclick="subR()">تأكيد</button>
+<div id="rr" style="margin-top:14px"></div>
+<button class="sb2" onclick="cls('rm')" style="margin-top:16px">إغلاق</button>
+</div></div>
+
+<div id="am" class="m"><div class="mb">
+<h2>👤 معلومات الحساب</h2>
+<div class="as"><div class="st">اسم الحساب</div><input id="au"></div>
+<div class="as"><div class="st">كلمة السر (مشفّرة)</div>
+<div class="pr"><input id="ap" type="password" readonly><button onclick="tp()" id="pe">👁</button></div>
+</div>
+<div class="as"><div class="st">الصورة</div>
+<label for="apIn" class="pc" id="apv" style="display:block">👤</label>
+<input type="file" id="apIn" accept="image/*" onchange="onPic2(event)">
+<input id="au2" placeholder="أو رابط مباشر" style="margin-top:10px;font-size:13px">
+<button class="sb2" onclick="apU()" style="width:100%;margin-top:6px;padding:8px">🔗 تطبيق الرابط</button>
+</div>
+<button class="btn" onclick="svA()">💾 حفظ</button>
+<div class="sv" id="av"></div>
+<button class="sb2" onclick="cls('am')" style="width:100%;margin-top:12px;padding:9px">إغلاق</button>
+</div></div>
+
 <script>
-(function(){
-'use strict';
-var $=function(s){return document.querySelector(s)};
-if(typeof THREE==='undefined'||typeof Peer==='undefined'){$('#status').textContent='فشل التحميل';return}
+var CU='https://i.postimg.cc/cHM21qYD/IMG-20261008-153917-222.jpg';
 
-var M=21,C=6,H=M*C/2,WH=7,maze=[];
-function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-function genMaze(seed){
- var rnd=mulberry32(seed|0);maze=[];
- for(var i=0;i<M;i++){maze[i]=[];for(var j=0;j<M;j++)maze[i][j]=1}
- var st=[[1,1]];maze[1][1]=0;var d=[[0,2],[0,-2],[2,0],[-2,0]];
- while(st.length){
-  var c=st[st.length-1],ne=[];
-  for(var k=0;k<4;k++){
-   var nx=c[0]+d[k][0],ny=c[1]+d[k][1];
-   if(nx>0&&nx<M-1&&ny>0&&ny<M-1&&maze[ny][nx]===1)ne.push([nx,ny,d[k][0]/2,d[k][1]/2]);
+var mode='login',pend=null,viewing=false,newPic=null,accPic,accUrl,showP=false;
+
+function $(id){return document.getElementById(id);}
+function U(){try{var v=localStorage.getItem('tk_u');return v?JSON.parse(v):{};}catch(e){return{};}}
+function S(u){try{localStorage.setItem('tk_u',JSON.stringify(u));return true;}catch(e){alert('الذاكرة ممتلئة');return false;}}
+function C(){return localStorage.getItem('tk_s');}
+function on(id){var e=$(id);if(e&&e.className.indexOf('on')<0)e.className+=' on';}
+function off(id){var e=$(id);if(!e)return;var parts=e.className.split(' ');var keep=[];for(var i=0;i<parts.length;i++){if(parts[i]!=='on'&&parts[i]!=='')keep.push(parts[i]);}e.className=keep.join(' ');}
+
+function cmp(f,cb){
+  var r=new FileReader();
+  r.onload=function(e){
+    var i=new Image();
+    i.onload=function(){
+      var c=document.createElement('canvas');
+      var w=i.width,h=i.height,m=250;
+      if(w>h&&w>m){h=Math.round(h*m/w);w=m;}else if(h>m){w=Math.round(w*m/h);h=m;}
+      c.width=w;c.height=h;
+      c.getContext('2d').drawImage(i,0,0,w,h);
+      cb(c.toDataURL('image/jpeg',0.7));
+    };
+    i.src=e.target.result;
+  };
+  r.readAsDataURL(f);
+}
+function onPic(e){var f=e.target.files[0];if(!f)return;cmp(f,function(d){newPic=d;$('pvp').innerHTML='<img src="'+d+'">';});}
+function onPic2(e){var f=e.target.files[0];if(!f)return;cmp(f,function(d){accPic=d;accUrl=undefined;$('apv').innerHTML='<img src="'+d+'">';});}
+
+function mk(u,c,p,ch){
+  var o={u:u,c:c};
+  if(p&&p.indexOf&&p.indexOf('http')===0)o.p=p;
+  if(ch)o.ch=ch;
+  try{return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_');}catch(e){return'';}
+}
+function prs(x){
+  try{
+    var b=x.replace(/-/g,'+').replace(/_/g,'/');
+    while(b.length%4)b+='=';
+    var o=JSON.parse(decodeURIComponent(escape(atob(b))));
+    if(!o||!o.u)return null;
+    return{u:o.u,c:parseFloat(o.c)||0,p:o.p||null,ch:o.ch||null};
+  }catch(e){return null;}
+}
+
+function tab(m){
+  mode=m;
+  if(m==='login')on('tl');else off('tl');
+  if(m==='signup')on('ts');else off('ts');
+  if(m==='recover')on('tr');else off('tr');
+  $('u').style.display=(m==='recover')?'none':'block';
+  $('p').style.display=(m==='recover')?'none':'block';
+  $('p2').style.display=(m==='signup')?'block':'none';
+  $('pb').style.display=(m==='signup')?'block':'none';
+  $('rec').style.display=(m==='recover')?'block':'none';
+  $('mb').innerHTML=(m==='signup')?'إنشاء الحساب':((m==='recover')?'استرداد':'دخول');
+  $('m').innerHTML='';
+}
+
+function go(){
+  var u=$('u').value.replace(/^\s+|\s+$/g,'');
+  var p=$('p').value;
+  var p2=$('p2').value;
+  var r=$('rec').value.replace(/^\s+|\s+$/g,'');
+  var us=U();
+  $('m').innerHTML='';
+  if(mode==='recover'){
+    if(!r){$('m').innerHTML='الصق الرمز';return;}
+    var q=prs(r);
+    if(!q){$('m').innerHTML='الرمز غير صحيح';return;}
+    if(us[q.u]){
+      us[q.u].coins=q.c;
+      if(q.p)us[q.u].pic=q.p;
+      if(q.ch)us[q.u].character=q.ch;
+      S(us);in_(q.u);
+    }else{
+      us[q.u]={password:'',code:'',pic:q.p||null,coins:q.c,usedCodes:[],character:q.ch||null};
+      S(us);in_(q.u);
+    }
+    return;
   }
-  if(!ne.length){st.pop();continue}
-  var p=ne[~~(rnd()*ne.length)];
-  maze[c[1]+p[3]][c[0]+p[2]]=0;maze[p[1]][p[0]]=0;st.push([p[0],p[1]]);
- }
- for(var q=0;q<35;q++)maze[1+~~(rnd()*(M-2))][1+~~(rnd()*(M-2))]=0;
- maze[M-2][M-2]=0;maze[M-3][M-2]=0;maze[M-2][1]=0;maze[M-3][1]=0;
-}
-genMaze(1);
-function cw(cx,cy){return{x:cx*C-H+C/2,z:cy*C-H+C/2}}
-function isW(wx,wz){
- var cx=~~((wx+H)/C),cy=~~((wz+H)/C);
- if(cx<0||cx>=M||cy<0||cy>=M)return true;
- return maze[cy][cx]===1;
-}
-function randSpot(ax,az,md){
- for(var t=0;t<80;t++){
-  var cx=1+~~(Math.random()*(M-2)),cy=1+~~(Math.random()*(M-2));
-  if(maze[cy][cx]===1)continue;
-  var w=cw(cx,cy);
-  if(md&&Math.hypot(w.x-ax,w.z-az)<md)continue;
-  return w;
- }
- return cw(1,1);
-}
-
-var P={x:0,z:0,yaw:0,pitch:0},code='',peer=null,conn=null,isHost=false,
-    role=null,rp=null,last=0,prev=0,svX=0,svY=0,stickId=null,
-    lookId=null,llX=0,llY=0,state='play',started=false,retryMode='',
-    scene,camera,renderer,holePos,s0,msgCache='',
-    hp=100,remoteHp=100,club=null,swingT=0,hostSeed=0,sprinting=false;
-
-function initScene(){
- try{renderer=new THREE.WebGLRenderer()}catch(e){$('#status').textContent='لا يدعم WebGL';return false}
- renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
- renderer.setSize(innerWidth,innerHeight);
- document.body.appendChild(renderer.domElement);
- scene=new THREE.Scene();
- scene.background=new THREE.Color(0x000000);
- scene.fog=new THREE.Fog(0x000000,18,75);
- camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,250);
- scene.add(camera);
- scene.add(new THREE.AmbientLight(0xfff0c0,.55));
-
- var URL='https://i.postimg.cc/0QQB9Fcy/free-backrooms-wallpaper-v0-65g3p16dkqg81.jpg';
- var wT=new THREE.TextureLoader().load(URL);
- wT.wrapS=wT.wrapT=THREE.RepeatWrapping;wT.repeat.set(1,1);
- var wM=new THREE.MeshLambertMaterial({map:wT});
-
- // الأرضية بصورة السجاد
- var floorURL='https://i.postimg.cc/fb6JvBJ4/Carpet0034-1-350.jpg';
- var fT=new THREE.TextureLoader().load(floorURL);
- fT.wrapS=fT.wrapT=THREE.RepeatWrapping;
- fT.repeat.set(M,M);
- var fM=new THREE.MeshLambertMaterial({map:fT});
- var gnd=new THREE.Mesh(new THREE.PlaneGeometry(M*C,M*C),fM);
- gnd.rotation.x=-Math.PI/2;scene.add(gnd);
-
- // السقف يبقى لون باهت
- var ceil=new THREE.Mesh(new THREE.PlaneGeometry(M*C,M*C),
-  new THREE.MeshLambertMaterial({color:0xfaffbf}));
- ceil.rotation.x=Math.PI/2;ceil.position.y=WH;scene.add(ceil);
-
- for(var yy=0;yy<M;yy++)for(var xx=0;xx<M;xx++){
-  var w=cw(xx,yy);
-  if(maze[yy][xx]===1){
-   var bx=new THREE.Mesh(new THREE.BoxGeometry(C,WH,C),wM);
-   bx.position.set(w.x,WH/2,w.z);scene.add(bx);
+  if(!u||!p){$('m').innerHTML='اكتب الاسم وكلمة السر';return;}
+  if(mode==='signup'){
+    if(p!==p2){$('m').innerHTML='كلمتا السر غير متطابقتين';return;}
+    if(us[u]){$('m').innerHTML='الاسم موجود';return;}
+    us[u]={password:p,code:'',pic:newPic||null,coins:0,usedCodes:[],character:null};
+    if(!S(us))return;
+    pend=u;viewing=false;
+    $('ct').innerHTML=mk(u,0,null,null);
+    $('mn').style.display='block';
+    $('cfb').innerHTML='حفظت الرمز ✓';
+    $('cfb').onclick=cnf;
+    on('cm');
+  }else{
+    if(!us[u]){$('m').innerHTML='الاسم غير موجود';return;}
+    if(us[u].password!==p){$('m').innerHTML='كلمة السر غلط';return;}
+    in_(u);
   }
-  if(xx%4===2&&yy%4===2){
-   var pl=new THREE.PointLight(0xffe090,1.1,32,1.6);
-   pl.position.set(w.x,WH-1.2,w.z);scene.add(pl);
-   var lb=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),
-    new THREE.MeshBasicMaterial({color:0xffffee}));
-   lb.position.set(w.x,WH-.6,w.z);scene.add(lb);
+}
+
+function cp(){
+  var t=$('ct').innerHTML;
+  var a=document.createElement('textarea');
+  a.value=t;a.style.position='fixed';a.style.opacity='0';
+  document.body.appendChild(a);a.focus();a.select();
+  try{document.execCommand('copy');$('cpb').innerHTML='✅ تم';setTimeout(function(){$('cpb').innerHTML='📋 نسخ';},1500);}catch(e){}
+  document.body.removeChild(a);
+}
+function cnf(){off('cm');if(!viewing&&pend){in_(pend);pend=null;}}
+function myCode(){
+  var u=C(),us=U();
+  if(!u||!us[u])return;
+  viewing=true;
+  $('ct').innerHTML=mk(u,us[u].coins||0,us[u].pic,us[u].character);
+  $('mn').style.display='none';
+  $('cfb').innerHTML='إغلاق';
+  $('cfb').onclick=function(){off('cm');};
+  on('cm');
+}
+
+function openR(){$('rInp').value='';$('rr').innerHTML='';on('rm');}
+function cls(id){off(id);}
+
+function checkCode(code){
+  if(code === '6767676') return 10;
+
+  var m = code.match(/=\((\d+(?:\.\d+)?)\)/);
+  if(!m) return null;
+  
+  var num = parseFloat(m[1]);
+  var coins = num - 5;
+  if(coins <= 0) return null;
+
+  var eqPos = code.indexOf('=(');
+  var closePos = code.indexOf(')', eqPos);
+  if(eqPos < 0 || closePos < 0) return null;
+
+  var before = code.substring(0, eqPos);
+  var after = code.substring(closePos + 1);
+
+  if(before.length === 4 && before.charAt(1) === '?' && before.charAt(2) === '#'){
+    if(after.length === 2 && after.charAt(0) === '!'){
+      return coins;
+    }
   }
- }
 
- holePos=cw(M-2,M-2);
- var hole=new THREE.Mesh(new THREE.CircleGeometry(1.6,24),
-  new THREE.MeshBasicMaterial({color:0x000000}));
- hole.rotation.x=-Math.PI/2;hole.position.set(holePos.x,.05,holePos.z);scene.add(hole);
- var hr=new THREE.Mesh(new THREE.RingGeometry(1.6,2,24),
-  new THREE.MeshBasicMaterial({color:0xa855f7,side:THREE.DoubleSide}));
- hr.rotation.x=-Math.PI/2;hr.position.set(holePos.x,.06,holePos.z);scene.add(hr);
-
- var cg=new THREE.Group();
- var woodM=new THREE.MeshLambertMaterial({color:0x6a4a2a,depthTest:false});
- var headM=new THREE.MeshLambertMaterial({color:0x3a2410,depthTest:false});
- var handle=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,1.0,8),woodM);
- handle.position.y=.5;handle.renderOrder=999;cg.add(handle);
- var head=new THREE.Mesh(new THREE.BoxGeometry(.5,.5,.5),headM);
- head.position.y=1.15;head.renderOrder=999;cg.add(head);
- cg.position.set(.55,-.75,-.5);cg.rotation.y=.2;cg.visible=false;
- club=cg;camera.add(cg);
- return true;
-}
-
-function mkPlayer(){
- var g=new THREE.Group();
- var skinM=new THREE.MeshLambertMaterial({color:0xf5cd30});
- var bodyM=new THREE.MeshLambertMaterial({color:0x2f6fe0});
- var legsM=new THREE.MeshLambertMaterial({color:0x3fbf3f});
- var eyeM=new THREE.MeshBasicMaterial({color:0x000000});
- function b(w,h,d,m,x,y,z){var o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);g.add(o)}
- b(0.88,1.08,0.42,legsM, 0, 0.54, 0);
- b(0.88,0.9,0.46,bodyM, 0, 1.53, 0);
- b(0.4,0.9,0.42,skinM, -0.64, 1.53, 0);
- b(0.4,0.9,0.42,skinM, 0.64, 1.53, 0);
- b(0.56,0.52,0.56,skinM, 0, 2.24, 0);
- b(0.08,0.08,0.02,eyeM, -0.12, 2.28, 0.29);
- b(0.08,0.08,0.02,eyeM, 0.12, 2.28, 0.29);
- g.scale.set(0.65,0.65,0.65);
- return g;
-}
-
-function setMsg(t){if(t===msgCache)return;msgCache=t;var e=$('#msg');if(t){e.textContent=t;e.style.display='block'}else e.style.display='none'}
-function setRole(t){var e=$('#role');if(t){e.textContent=t;e.style.display='block'}else e.style.display='none'}
-function genCode(){var s='';for(var i=0;i<3;i++)s+=~~(Math.random()*10);return s}
-function showRetry(m,mode){$('#status').textContent=m;retryMode=mode;$('#retryBtn').style.display='block'}
-function updateHp(){$('#hp').textContent='❤️ '+Math.max(0,hp)}
-
-var PC={debug:0,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'}]}};
-function makePeer(id){try{return id?new Peer(id,PC):new Peer(PC)}catch(e){return null}}
-
-function createRoom(att){
- att=att||0;
- if(att>=6){showRetry('السيرفر مزحوم','create');return}
- code=genCode();
- hostSeed=Math.floor(Math.random()*1e9);
- genMaze(hostSeed);
- $('#roomCode').textContent=code;$('#roomCode').style.display='block';
- $('#status').textContent='جاري الاتصال... ('+(att+1)+'/6)';
- if(peer)try{peer.destroy()}catch(e){}
- peer=makePeer('wmgz'+code);
- if(!peer){setTimeout(function(){createRoom(att+1)},1200);return}
- var opened=false;
- peer.on('open',function(){
-  opened=true;isHost=true;role='hunter';
-  $('#createBtn').style.display='none';$('#joinBtn').style.display='none';
-  $('#status').textContent='✓ أعط الرمز لصاحبك';
-  $('#retryBtn').style.display='none';
-  startGame();
- });
- peer.on('connection',function(c){
-  conn=c;
-  c.on('open',function(){
-   role='hunter';
-   conn.send({t:'r',role:'runner',seed:hostSeed});
-   setRole('أنت الوحش 🔫');
-   $('#fire').style.display='flex';
-   setMsg('صاحبك وصل! 👥');setTimeout(function(){setMsg('')},2000);
-  });
-  c.on('data',onData);
-  c.on('close',function(){conn=null;rp=null;setMsg('انقطع الاتصال')});
- });
- peer.on('error',function(e){
-  if(opened)return;
-  var t=e&&e.type;
-  if(t==='unavailable-id'||t==='server-error'||t==='network'||t==='socket-error')
-   setTimeout(function(){createRoom(att+1)},1000);
-  else showRetry('خطأ: '+t,'create');
- });
- setTimeout(function(){if(!opened&&att<6){try{peer.destroy()}catch(e){}createRoom(att+1)}},7000);
-}
-
-function joinRoom(att){
- att=att||0;
- if(att>=6){showRetry('ما لقيت الغرفة','join');return}
- $('#status').textContent='جاري الاتصال... ('+(att+1)+'/6)';
- if(peer)try{peer.destroy()}catch(e){}
- peer=makePeer(null);
- if(!peer){setTimeout(function(){joinRoom(att+1)},1200);return}
- var connected=false;
- peer.on('open',function(){
-  conn=peer.connect('wmgz'+code,{reliable:true});
-  conn.on('open',function(){
-   connected=true;isHost=false;
-   $('#joinBtn').style.display='none';$('#joinOk').style.display='none';
-   $('#codeInput').style.display='none';
-   $('#status').textContent='متصل!';
-  });
-  conn.on('data',onData);
-  conn.on('close',function(){conn=null;rp=null;setMsg('انقطع الاتصال')});
- });
- peer.on('error',function(e){
-  if(connected)return;
-  var t=e&&e.type;
-  if(t==='peer-unavailable')setTimeout(function(){joinRoom(att+1)},1500);
-  else if(t==='server-error'||t==='network'||t==='socket-error')setTimeout(function(){joinRoom(att+1)},1000);
-  else showRetry('خطأ: '+t,'join');
- });
- setTimeout(function(){if(!connected&&att<6){try{peer.destroy()}catch(e){}joinRoom(att+1)}},8000);
-}
-
-function respawnPlayer(){
- var sp=randSpot(rp?rp.tx:P.x,rp?rp.tz:P.z,15);
- P.x=sp.x;P.z=sp.z;
- if(conn&&conn.open)conn.send({t:'rs',x:P.x,z:P.z});
-}
-
-function onData(d){
- if(!d||!d.t)return;
- if(d.t==='s'){
-  if(!rp){var g=mkPlayer();g.position.set(d.x,0,d.z);scene.add(g);rp={x:d.x,z:d.z,tx:d.x,tz:d.z,mesh:g}}
-  rp.tx=d.x;rp.tz=d.z;
- }
- if(d.t==='rs'&&rp){rp.x=d.x;rp.z=d.z;rp.tx=d.x;rp.tz=d.z}
- if(d.t==='r'){
-  role=d.role;
-  if(d.seed!==undefined)genMaze(d.seed);
-  if(!started){startGame();setMsg('متصل ✓');setTimeout(function(){setMsg('')},1500)}
-  if(role==='hunter'){$('#fire').style.display='flex';setRole('أنت الوحش 🔫')}
-  else setRole('أنت الهارب 🏃');
- }
- if(d.t==='hit'){
-  hp-=d.dmg;updateHp();
-  if(hp<=0){
-   state='over';setMsg('مُت! 💀');
-   if(conn&&conn.open)conn.send({t:'dead'});
-   if(navigator.vibrate)navigator.vibrate([100,50,100,50,100]);
-   setTimeout(function(){hp=100;updateHp();state='play';setMsg('');respawnPlayer()},2500);
-  } else {
-   setMsg('أصابك! -'+d.dmg);
-   if(navigator.vibrate)navigator.vibrate(30);
-   setTimeout(function(){setMsg('')},700);
+  if(before.length === 2){
+    var c0 = after.charAt(0);
+    if(after.length === 4 && (c0 === '?' || c0 === '!') && after.charAt(1) === '$' && after.charAt(2) === '#'){
+      return coins;
+    }
   }
- }
- if(d.t==='dead'){
-  state='over';setMsg('قتلته! 🎉');remoteHp=100;
-  if(navigator.vibrate)navigator.vibrate(80);
-  setTimeout(function(){state='play';setMsg('');respawnPlayer()},2500);
- }
- if(d.t==='w'){
-  state='over';setMsg('صاحبك هرب! 🏃');
-  setTimeout(function(){state='play';setMsg('');respawnPlayer()},3000);
- }
+
+  return null;
 }
 
-function shoot(){
- if(state!=='play'||role!=='hunter')return;
- swingT=.3;
- if(navigator.vibrate)navigator.vibrate(20);
- if(!rp)return;
- if(Math.hypot(rp.tx-P.x,rp.tz-P.z)<2.6){
-  remoteHp-=34;
-  if(conn&&conn.open)conn.send({t:'hit',dmg:34});
-  setMsg(remoteHp<=0?'قتلته! 🎉':'أصبت! باقي '+Math.max(0,remoteHp));
-  setTimeout(function(){setMsg('')},800);
- }
+function subR(){
+  var u=C(),us=U();
+  var code=$('rInp').value.replace(/^\s+|\s+$/g,'');
+  if(!u||!us[u]){$('rr').innerHTML='<div style="color:#ff6b6b">سجّل دخول أولاً</div>';return;}
+  if(!code){$('rr').innerHTML='<div style="color:#ff6b6b">اكتب الكود</div>';return;}
+
+  var amount = checkCode(code);
+  if(amount === null){$('rr').innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';return;}
+
+  us[u].coins = (us[u].coins || 0) + amount;
+  S(us);upC();
+  $('rr').innerHTML='<div class="ok">🎉 مبروك!</div><div class="gm">حصلت على '+amount+' عملة</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">'+us[u].coins+'</div><div class="l">مجموع عملاتك</div></div></div>';
+  $('rInp').value='';
 }
 
-var SB=$('#stick'),ST=$('#thumb'),spBtn=$('#sprint');
-function setStick(t){
- var r=SB.getBoundingClientRect();
- var dx=t.clientX-(r.left+r.width/2),dy=t.clientY-(r.top+r.height/2);
- var d=Math.hypot(dx,dy),maxR=48;
- if(d>maxR){dx=dx/d*maxR;dy=dy/d*maxR}
- ST.style.transform='translate('+dx+'px,'+dy+'px)';
- svX=dx/maxR;svY=dy/maxR;
+function upC(){var u=C(),us=U();$('cc').innerHTML=(u&&us[u]&&us[u].coins)||0;}
+function in_(u){
+  localStorage.setItem('tk_s',u);
+  var d=U()[u]||{};
+  $('wn').innerHTML=u;
+  $('up').innerHTML=d.pic?'<img src="'+d.pic+'">':'👤';
+  upC();
+  off('a');on('g');
+  $('rec').value='';$('pvp').innerHTML='👤';newPic=null;$('m').innerHTML='';
 }
-document.addEventListener('touchstart',function(e){
- for(var i=0;i<e.changedTouches.length;i++){
-  var t=e.changedTouches[i],el=document.elementFromPoint(t.clientX,t.clientY);
-  if(!el)continue;
-  if(el.id==='sprint'){e.preventDefault();sprinting=!sprinting;spBtn.classList.toggle('on',sprinting);continue}
-  if(el.id==='stick'||el.parentNode.id==='stick'){if(!stickId){stickId=t.identifier;setStick(t)}}
-  else if(el.id==='fire')shoot();
-  else if(!lookId&&started){lookId=t.identifier;llX=t.clientX;llY=t.clientY}
- }
-},{passive:false});
-document.addEventListener('touchmove',function(e){
- for(var i=0;i<e.changedTouches.length;i++){
-  var t=e.changedTouches[i];
-  if(t.identifier===stickId)setStick(t);
-  else if(t.identifier===lookId){
-   P.yaw-=(t.clientX-llX)*.005;
-   P.pitch=Math.max(-1.2,Math.min(1.2,P.pitch-(t.clientY-llY)*.004));
-   llX=t.clientX;llY=t.clientY;
-  }
- }
-},{passive:true});
-function endT(e){
- for(var i=0;i<e.changedTouches.length;i++){
-  var t=e.changedTouches[i];
-  if(t.identifier===stickId){stickId=null;svX=0;svY=0;ST.style.transform='translate(0,0)'}
-  if(t.identifier===lookId)lookId=null;
- }
+function tg(e){if(e){if(e.stopPropagation)e.stopPropagation();if(e.preventDefault)e.preventDefault();}if($('sm').className.indexOf('on')<0)on('sm');else off('sm');}
+function openA(){
+  var u=C(),us=U();
+  if(!u||!us[u])return;
+  accPic=undefined;accUrl=undefined;showP=false;
+  off('sm');
+  $('au').value=u;
+  try{$('ap').value=us[u].password?btoa(unescape(encodeURIComponent(us[u].password))):'—';}catch(e){$('ap').value='—';}
+  $('ap').type='password';$('pe').innerHTML='👁';
+  $('apv').innerHTML=us[u].pic?'<img src="'+us[u].pic+'">':'👤';
+  $('au2').value='';$('av').innerHTML='';
+  on('am');
 }
-document.addEventListener('touchend',endT,{passive:true});
-document.addEventListener('touchcancel',endT,{passive:true});
-spBtn.addEventListener('mousedown',function(e){e.preventDefault();sprinting=!sprinting;spBtn.classList.toggle('on',sprinting)});
-
-var keys={};
-document.addEventListener('keydown',function(e){keys[e.code]=true;if(e.code==='Space')shoot()});
-document.addEventListener('keyup',function(e){keys[e.code]=false});
-
-addEventListener('resize',function(){
- if(!camera)return;
- camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
- renderer.setSize(innerWidth,innerHeight);
-});
-
-$('#createBtn').onclick=function(){$('#createBtn').disabled=true;$('#joinBtn').disabled=true;createRoom(0)};
-$('#joinBtn').onclick=function(){
- $('#createBtn').style.display='none';$('#joinBtn').style.display='none';
- $('#codeInput').style.display='block';$('#joinOk').style.display='block';
- $('#codeInput').focus();$('#status').textContent='اكتب رمز صاحبك';
-};
-$('#joinOk').onclick=function(){
- var v=$('#codeInput').value.replace(/\D/g,'');
- if(v.length!==3){$('#codeInput').style.borderColor='#ff4060';return}
- code=v;$('#joinOk').disabled=true;joinRoom(0);
-};
-$('#retryBtn').onclick=function(){
- $('#retryBtn').style.display='none';
- if(retryMode==='create'){
-  $('#createBtn').style.display='block';$('#createBtn').disabled=false;
-  $('#joinBtn').style.display='block';$('#joinBtn').disabled=false;
-  $('#roomCode').style.display='none';$('#status').textContent='اختر';
- }else{
-  $('#joinOk').style.display='block';$('#joinOk').disabled=false;$('#status').textContent='حاول';
- }
-};
-$('#codeInput').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,3)});
-
-function startGame(){
- if(started)return;
- if(!initScene())return;
- started=true;
- s0=isHost?cw(1,1):cw(M-2,1);
- P.x=s0.x;P.z=s0.z;
- $('#menu').style.display='none';
- $('#stick').style.display='block';
- $('#sprint').style.display='flex';
- $('#hp').style.display='block';
- $('#roomBadge').textContent='#'+code;
- $('#roomBadge').style.display='block';
- if(isHost){role='hunter';setRole('استنى صاحبك — أنت الوحش')}
- updateHp();
- prev=performance.now();loop();
+function tp(){showP=!showP;$('ap').type=showP?'text':'password';$('pe').innerHTML=showP?'🙈':'👁';}
+function apU(){var v=$('au2').value.replace(/^\s+|\s+$/g,'');if(!v)return;accUrl=v;accPic=undefined;$('apv').innerHTML='<img src="'+v+'">';}
+function svA(){
+  var u=C(),us=U();
+  if(!u||!us[u])return;
+  var n=$('au').value.replace(/^\s+|\s+$/g,'');
+  if(!n){$('av').innerHTML='⚠️ اكتب اسم';return;}
+  if(n!==u&&us[n]){$('av').innerHTML='⚠️ الاسم محجوز';return;}
+  if(accPic!==undefined)us[u].pic=accPic;
+  if(accUrl!==undefined)us[u].pic=accUrl;
+  var f=u;
+  if(n!==u){us[n]=us[u];delete us[u];localStorage.setItem('tk_s',n);$('wn').innerHTML=n;f=n;}
+  if(!S(us))return;
+  $('up').innerHTML=us[f].pic?'<img src="'+us[f].pic+'">':'👤';
+  $('av').innerHTML='✅ تم الحفظ';
+  setTimeout(function(){off('am');},800);
 }
-
-function loop(){
- requestAnimationFrame(loop);
- var now=performance.now(),dt=(now-prev)/1000;prev=now;
- if(dt>.05)dt=.05;
-
- if(state==='play'){
-  var mf=-svY,ms=svX;
-  if(keys['KeyW'])mf+=1;if(keys['KeyS'])mf-=1;
-  if(keys['KeyD'])ms+=1;if(keys['KeyA'])ms-=1;
-  var dx=Math.sin(P.yaw)*mf-Math.cos(P.yaw)*ms,
-      dz=Math.cos(P.yaw)*mf+Math.sin(P.yaw)*ms;
-  var len=Math.hypot(dx,dz);
-  if(len>.01){
-   var mul=sprinting?2.5:1;
-   var sp=5*mul*Math.min(len,1),nx=P.x+dx/len*sp*dt,nz=P.z+dz/len*sp*dt;
-   if(!isW(nx,P.z))P.x=nx;
-   if(!isW(P.x,nz))P.z=nz;
-  }
-  if(role==='runner'&&Math.hypot(P.x-holePos.x,P.z-holePos.z)<1.5){
-   state='over';setMsg('فزت! 🎉');
-   if(conn&&conn.open)conn.send({t:'w',r:'hole'});
-   if(navigator.vibrate)navigator.vibrate(80);
-   setTimeout(function(){state='play';setMsg('');respawnPlayer()},3000);
-  }
- }
-
- var cp=Math.cos(P.pitch);
- camera.position.set(P.x,1.6,P.z);
- camera.lookAt(P.x+Math.sin(P.yaw)*cp*10,1.6+Math.sin(P.pitch)*10,P.z+Math.cos(P.yaw)*cp*10);
-
- if(club){
-  club.visible=(role==='hunter');
-  if(swingT>0){swingT-=dt;club.rotation.x=Math.sin((1-swingT/.3)*Math.PI)*1.5}
-  else club.rotation.x=0;
- }
-
- if(rp){
-  rp.x+=(rp.tx-rp.x)*.35;rp.z+=(rp.tz-rp.z)*.35;
-  rp.mesh.position.set(rp.x,0,rp.z);
-  rp.mesh.rotation.y=Math.atan2(P.x-rp.x,P.z-rp.z);
- }
-
- if(conn&&conn.open&&now-last>40){last=now;conn.send({t:'s',x:P.x,z:P.z})}
- renderer.render(scene,camera);
+function out(){
+  localStorage.removeItem('tk_s');
+  off('sm');
+  off('g');on('a');
+  $('u').value='';$('p').value='';$('p2').value='';$('rec').value='';
+  tab('login');
 }
-})();
+window.onload=function(){var s=C();if(s&&U()[s])in_(s);};
 </script>
 </body>
 </html>
