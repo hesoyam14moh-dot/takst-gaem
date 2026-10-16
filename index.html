@@ -17,8 +17,6 @@ h1{font-size:30px;margin-bottom:6px;color:#c084fc}
 .tabs button.on{color:#c084fc;border-bottom-color:#a855f7}
 input{width:100%;padding:12px;margin-bottom:12px;background:#140a32cc;border:1px solid #2a1a5e;border-radius:8px;color:#fff;font-size:15px;outline:none;text-align:center}
 input:focus{border-color:#a855f7}
-#rec{letter-spacing:3px;font-weight:bold}
-#rInp{letter-spacing:2px;font-weight:bold;font-size:14px}
 .btn{width:100%;padding:13px;border:none;border-radius:8px;background:linear-gradient(90deg,#a855f7,#3b82f6);color:#fff;font-weight:bold;font-size:16px;cursor:pointer;margin-top:6px}
 .msg{min-height:20px;font-size:14px;margin-top:12px;color:#ff6b6b}
 #g{padding-top:200px;position:relative;min-height:100vh}
@@ -76,6 +74,8 @@ input:focus{border-color:#a855f7}
 .as{text-align:right;margin-bottom:14px}
 .st{color:#c084fc;font-size:13px;font-weight:bold;margin-bottom:8px}
 .sv{color:#4ade80;font-size:13px;min-height:18px;margin-top:6px}
+.hint{margin-top:8px;font-size:11px;color:#8b8bb5;line-height:1.6;background:#00000060;padding:8px;border-radius:8px;border:1px solid #3b2a7a}
+.hint a{color:#7dabff;text-decoration:none}
 </style>
 </head>
 <body>
@@ -154,6 +154,13 @@ input:focus{border-color:#a855f7}
 <input type="file" id="apIn" accept="image/*" onchange="onPic2(event)">
 <input id="au2" placeholder="أو رابط مباشر" style="margin-top:10px;font-size:13px">
 <button class="sb2" onclick="apU()" style="width:100%;margin-top:6px;padding:8px">🔗 تطبيق الرابط</button>
+<div class="hint">
+💡 <b>كيف تحصل على رابط مباشر؟</b><br>
+1. افتح <a href="https://postimages.org" target="_blank">postimages.org</a><br>
+2. ارفع الصورة<br>
+3. اختر <b>"Direct link"</b><br>
+4. انسخه والصقه فوق
+</div>
 </div>
 <button class="btn" onclick="svA()">💾 حفظ</button>
 <div class="sv" id="av"></div>
@@ -162,23 +169,23 @@ input:focus{border-color:#a855f7}
 
 <script>
 var CU='https://i.postimg.cc/cHM21qYD/IMG-20261008-153917-222.jpg';
-
+var DEV_KEY='MOH_MMAD';
+var INF=999999999999;
 var mode='login',pend=null,viewing=false,newPic=null,accPic,accUrl,showP=false;
 
 function $(id){return document.getElementById(id);}
-function U(){try{var v=localStorage.getItem('tk_u');return v?JSON.parse(v):{};}catch(e){return{};}}
-function S(u){try{localStorage.setItem('tk_u',JSON.stringify(u));return true;}catch(e){alert('الذاكرة ممتلئة');return false;}}
+function U(){try{return JSON.parse(localStorage.getItem('tk_u'))||{};}catch(e){return{};}}
+function S(u){try{localStorage.setItem('tk_u',JSON.stringify(u));return 1;}catch(e){return 0;}}
 function C(){return localStorage.getItem('tk_s');}
 function on(id){var e=$(id);if(e&&e.className.indexOf('on')<0)e.className+=' on';}
-function off(id){var e=$(id);if(!e)return;var parts=e.className.split(' ');var keep=[];for(var i=0;i<parts.length;i++){if(parts[i]!=='on'&&parts[i]!=='')keep.push(parts[i]);}e.className=keep.join(' ');}
+function off(id){var e=$(id);if(!e)return;var a=e.className.split(' '),k=[];for(var i=0;i<a.length;i++)if(a[i]!=='on'&&a[i]!=='')k.push(a[i]);e.className=k.join(' ');}
 
 function cmp(f,cb){
   var r=new FileReader();
   r.onload=function(e){
     var i=new Image();
     i.onload=function(){
-      var c=document.createElement('canvas');
-      var w=i.width,h=i.height,m=250;
+      var c=document.createElement('canvas'),w=i.width,h=i.height,m=250;
       if(w>h&&w>m){h=Math.round(h*m/w);w=m;}else if(h>m){w=Math.round(w*m/h);h=m;}
       c.width=w;c.height=h;
       c.getContext('2d').drawImage(i,0,0,w,h);
@@ -188,12 +195,12 @@ function cmp(f,cb){
   };
   r.readAsDataURL(f);
 }
-function onPic(e){var f=e.target.files[0];if(!f)return;cmp(f,function(d){newPic=d;$('pvp').innerHTML='<img src="'+d+'">';});}
-function onPic2(e){var f=e.target.files[0];if(!f)return;cmp(f,function(d){accPic=d;accUrl=undefined;$('apv').innerHTML='<img src="'+d+'">';});}
+function onPic(e){var f=e.target.files[0];if(f)cmp(f,function(d){newPic=d;$('pvp').innerHTML='<img src="'+d+'">';});}
+function onPic2(e){var f=e.target.files[0];if(f)cmp(f,function(d){accPic=d;accUrl=undefined;$('apv').innerHTML='<img src="'+d+'">';});}
 
 function mk(u,c,p,ch){
   var o={u:u,c:c};
-  if(p&&p.indexOf&&p.indexOf('http')===0)o.p=p;
+  if(p&&p.indexOf('http')===0)o.p=p;
   if(ch)o.ch=ch;
   try{return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_');}catch(e){return'';}
 }
@@ -202,8 +209,7 @@ function prs(x){
     var b=x.replace(/-/g,'+').replace(/_/g,'/');
     while(b.length%4)b+='=';
     var o=JSON.parse(decodeURIComponent(escape(atob(b))));
-    if(!o||!o.u)return null;
-    return{u:o.u,c:parseFloat(o.c)||0,p:o.p||null,ch:o.ch||null};
+    return o.u?{u:o.u,c:parseFloat(o.c)||0,p:o.p||null,ch:o.ch||null}:null;
   }catch(e){return null;}
 }
 
@@ -212,48 +218,36 @@ function tab(m){
   if(m==='login')on('tl');else off('tl');
   if(m==='signup')on('ts');else off('ts');
   if(m==='recover')on('tr');else off('tr');
-  $('u').style.display=(m==='recover')?'none':'block';
-  $('p').style.display=(m==='recover')?'none':'block';
-  $('p2').style.display=(m==='signup')?'block':'none';
-  $('pb').style.display=(m==='signup')?'block':'none';
-  $('rec').style.display=(m==='recover')?'block':'none';
-  $('mb').innerHTML=(m==='signup')?'إنشاء الحساب':((m==='recover')?'استرداد':'دخول');
+  $('u').style.display=m==='recover'?'none':'block';
+  $('p').style.display=m==='recover'?'none':'block';
+  $('p2').style.display=m==='signup'?'block':'none';
+  $('pb').style.display=m==='signup'?'block':'none';
+  $('rec').style.display=m==='recover'?'block':'none';
+  $('mb').innerHTML=m==='signup'?'إنشاء الحساب':(m==='recover'?'استرداد':'دخول');
   $('m').innerHTML='';
 }
 
 function go(){
-  var u=$('u').value.replace(/^\s+|\s+$/g,'');
-  var p=$('p').value;
-  var p2=$('p2').value;
-  var r=$('rec').value.replace(/^\s+|\s+$/g,'');
-  var us=U();
+  var u=$('u').value.replace(/^\s+|\s+$/g,''),p=$('p').value,p2=$('p2').value,r=$('rec').value.replace(/^\s+|\s+$/g,''),us=U();
   $('m').innerHTML='';
   if(mode==='recover'){
     if(!r){$('m').innerHTML='الصق الرمز';return;}
     var q=prs(r);
     if(!q){$('m').innerHTML='الرمز غير صحيح';return;}
-    if(us[q.u]){
-      us[q.u].coins=q.c;
-      if(q.p)us[q.u].pic=q.p;
-      if(q.ch)us[q.u].character=q.ch;
-      S(us);in_(q.u);
-    }else{
-      us[q.u]={password:'',code:'',pic:q.p||null,coins:q.c,usedCodes:[],character:q.ch||null};
-      S(us);in_(q.u);
-    }
+    if(us[q.u]){us[q.u].coins=q.c;if(q.p)us[q.u].pic=q.p;if(q.ch)us[q.u].character=q.ch;S(us);in_(q.u);}
+    else{us[q.u]={password:'',pic:q.p||null,coins:q.c,usedCodes:[],character:q.ch||null};S(us);in_(q.u);}
     return;
   }
   if(!u||!p){$('m').innerHTML='اكتب الاسم وكلمة السر';return;}
   if(mode==='signup'){
     if(p!==p2){$('m').innerHTML='كلمتا السر غير متطابقتين';return;}
     if(us[u]){$('m').innerHTML='الاسم موجود';return;}
-    us[u]={password:p,code:'',pic:newPic||null,coins:0,usedCodes:[],character:null};
+    us[u]={password:p,pic:newPic||null,coins:0,usedCodes:[],character:null};
     if(!S(us))return;
     pend=u;viewing=false;
     $('ct').innerHTML=mk(u,0,null,null);
     $('mn').style.display='block';
-    $('cfb').innerHTML='حفظت الرمز ✓';
-    $('cfb').onclick=cnf;
+    $('cfb').innerHTML='حفظت الرمز ✓';$('cfb').onclick=cnf;
     on('cm');
   }else{
     if(!us[u]){$('m').innerHTML='الاسم غير موجود';return;}
@@ -262,105 +256,55 @@ function go(){
   }
 }
 
-function cp(){
-  var t=$('ct').innerHTML;
-  var a=document.createElement('textarea');
-  a.value=t;a.style.position='fixed';a.style.opacity='0';
-  document.body.appendChild(a);a.focus();a.select();
-  try{document.execCommand('copy');$('cpb').innerHTML='✅ تم';setTimeout(function(){$('cpb').innerHTML='📋 نسخ';},1500);}catch(e){}
-  document.body.removeChild(a);
-}
+function cp(){var t=$('ct').innerHTML,a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.focus();a.select();try{document.execCommand('copy');$('cpb').innerHTML='✅';setTimeout(function(){$('cpb').innerHTML='📋 نسخ';},1500);}catch(e){}document.body.removeChild(a);}
 function cnf(){off('cm');if(!viewing&&pend){in_(pend);pend=null;}}
-function myCode(){
-  var u=C(),us=U();
-  if(!u||!us[u])return;
-  viewing=true;
-  $('ct').innerHTML=mk(u,us[u].coins||0,us[u].pic,us[u].character);
-  $('mn').style.display='none';
-  $('cfb').innerHTML='إغلاق';
-  $('cfb').onclick=function(){off('cm');};
-  on('cm');
-}
-
+function myCode(){var u=C(),us=U();if(!u||!us[u])return;viewing=true;$('ct').innerHTML=mk(u,us[u].coins||0,us[u].pic,us[u].character);$('mn').style.display='none';$('cfb').innerHTML='إغلاق';$('cfb').onclick=function(){off('cm');};on('cm');}
 function openR(){$('rInp').value='';$('rr').innerHTML='';on('rm');}
 function cls(id){off(id);}
 
 function checkCode(code){
-  if(code === '6767676') return 10;
-
-  var m = code.match(/=\((\d+(?:\.\d+)?)\)/);
-  if(!m) return null;
-  
-  var num = parseFloat(m[1]);
-  var coins = num - 5;
-  if(coins <= 0) return null;
-
-  var eqPos = code.indexOf('=(');
-  var closePos = code.indexOf(')', eqPos);
-  if(eqPos < 0 || closePos < 0) return null;
-
-  var before = code.substring(0, eqPos);
-  var after = code.substring(closePos + 1);
-
-  if(before.length === 4 && before.charAt(1) === '?' && before.charAt(2) === '#'){
-    if(after.length === 2 && after.charAt(0) === '!'){
-      return coins;
-    }
+  if(code==='6767676')return 10;
+  var m=code.match(/=\((\d+(?:\.\d+)?)\)/);
+  if(!m)return null;
+  var coins=parseFloat(m[1])-5;
+  if(coins<=0)return null;
+  var eq=code.indexOf('=('),cl=code.indexOf(')',eq);
+  if(eq<0||cl<0)return null;
+  var b=code.substring(0,eq),a=code.substring(cl+1);
+  if(b.length===4&&b.charAt(1)==='?'&&b.charAt(2)==='#'&&a.length===2&&a.charAt(0)==='!')return coins;
+  if(b.length===2&&a.length===4){
+    var c0=a.charAt(0);
+    if((c0==='?'||c0==='!')&&a.charAt(1)==='$'&&a.charAt(2)==='#')return coins;
   }
-
-  if(before.length === 2){
-    var c0 = after.charAt(0);
-    if(after.length === 4 && (c0 === '?' || c0 === '!') && after.charAt(1) === '$' && after.charAt(2) === '#'){
-      return coins;
-    }
-  }
-
   return null;
 }
 
 function subR(){
-  var u=C(),us=U();
-  var code=$('rInp').value.replace(/^\s+|\s+$/g,'');
+  var u=C(),us=U(),code=$('rInp').value.replace(/^\s+|\s+$/g,'');
   if(!u||!us[u]){$('rr').innerHTML='<div style="color:#ff6b6b">سجّل دخول أولاً</div>';return;}
   if(!code){$('rr').innerHTML='<div style="color:#ff6b6b">اكتب الكود</div>';return;}
-
-  var amount = checkCode(code);
-  if(amount === null){$('rr').innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';return;}
-
-  us[u].coins = (us[u].coins || 0) + amount;
-  S(us);upC();
-  $('rr').innerHTML='<div class="ok">🎉 مبروك!</div><div class="gm">حصلت على '+amount+' عملة</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">'+us[u].coins+'</div><div class="l">مجموع عملاتك</div></div></div>';
+  if(code==='∞'){
+    if(u.indexOf(DEV_KEY)<0){$('rr').innerHTML='<div style="color:#ff6b6b;font-weight:bold">🚫 هذا الكود للمطور فقط</div>';$('rInp').value='';return;}
+    us[u].coins=INF;S(us);upC();
+    $('rr').innerHTML='<div style="color:#ffd400;font-size:18px;font-weight:bold;margin-bottom:10px">👑 أهلاً بك يا مطوّر</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">∞</div><div class="l">عملاتك الآن</div></div></div>';
+    $('rInp').value='';
+    return;
+  }
+  var amount=checkCode(code);
+  if(amount===null){$('rr').innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';return;}
+  us[u].coins=(us[u].coins||0)+amount;S(us);upC();
+  $('rr').innerHTML='<div class="ok">🎉 مبروك!</div><div class="gm">+'+amount+' عملة</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">'+us[u].coins+'</div><div class="l">مجموع عملاتك</div></div></div>';
   $('rInp').value='';
 }
 
-function upC(){var u=C(),us=U();$('cc').innerHTML=(u&&us[u]&&us[u].coins)||0;}
-function in_(u){
-  localStorage.setItem('tk_s',u);
-  var d=U()[u]||{};
-  $('wn').innerHTML=u;
-  $('up').innerHTML=d.pic?'<img src="'+d.pic+'">':'👤';
-  upC();
-  off('a');on('g');
-  $('rec').value='';$('pvp').innerHTML='👤';newPic=null;$('m').innerHTML='';
-}
+function upC(){var u=C(),us=U();$('cc').innerHTML=(u&&us[u]&&us[u].coins===INF)?'∞':((u&&us[u]&&us[u].coins)||0);}
+function in_(u){localStorage.setItem('tk_s',u);var d=U()[u]||{};$('wn').innerHTML=u;$('up').innerHTML=d.pic?'<img src="'+d.pic+'">':'👤';upC();off('a');on('g');$('rec').value='';$('pvp').innerHTML='👤';newPic=null;$('m').innerHTML='';}
 function tg(e){if(e){if(e.stopPropagation)e.stopPropagation();if(e.preventDefault)e.preventDefault();}if($('sm').className.indexOf('on')<0)on('sm');else off('sm');}
-function openA(){
-  var u=C(),us=U();
-  if(!u||!us[u])return;
-  accPic=undefined;accUrl=undefined;showP=false;
-  off('sm');
-  $('au').value=u;
-  try{$('ap').value=us[u].password?btoa(unescape(encodeURIComponent(us[u].password))):'—';}catch(e){$('ap').value='—';}
-  $('ap').type='password';$('pe').innerHTML='👁';
-  $('apv').innerHTML=us[u].pic?'<img src="'+us[u].pic+'">':'👤';
-  $('au2').value='';$('av').innerHTML='';
-  on('am');
-}
+function openA(){var u=C(),us=U();if(!u||!us[u])return;accPic=undefined;accUrl=undefined;showP=false;off('sm');$('au').value=u;try{$('ap').value=us[u].password?btoa(unescape(encodeURIComponent(us[u].password))):'—';}catch(e){$('ap').value='—';}$('ap').type='password';$('pe').innerHTML='👁';$('apv').innerHTML=us[u].pic?'<img src="'+us[u].pic+'">':'👤';$('au2').value='';$('av').innerHTML='';on('am');}
 function tp(){showP=!showP;$('ap').type=showP?'text':'password';$('pe').innerHTML=showP?'🙈':'👁';}
 function apU(){var v=$('au2').value.replace(/^\s+|\s+$/g,'');if(!v)return;accUrl=v;accPic=undefined;$('apv').innerHTML='<img src="'+v+'">';}
 function svA(){
-  var u=C(),us=U();
-  if(!u||!us[u])return;
+  var u=C(),us=U();if(!u||!us[u])return;
   var n=$('au').value.replace(/^\s+|\s+$/g,'');
   if(!n){$('av').innerHTML='⚠️ اكتب اسم';return;}
   if(n!==u&&us[n]){$('av').innerHTML='⚠️ الاسم محجوز';return;}
@@ -373,13 +317,7 @@ function svA(){
   $('av').innerHTML='✅ تم الحفظ';
   setTimeout(function(){off('am');},800);
 }
-function out(){
-  localStorage.removeItem('tk_s');
-  off('sm');
-  off('g');on('a');
-  $('u').value='';$('p').value='';$('p2').value='';$('rec').value='';
-  tab('login');
-}
+function out(){localStorage.removeItem('tk_s');off('sm');off('g');on('a');$('u').value='';$('p').value='';$('p2').value='';$('rec').value='';tab('login');}
 window.onload=function(){var s=C();if(s&&U()[s])in_(s);};
 </script>
 </body>
