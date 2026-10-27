@@ -92,7 +92,6 @@ input:focus{border-color:#a855f7}
 </div>
 <input id="u" placeholder="اسم المستخدم">
 <input id="p" type="password" placeholder="كلمة السر">
-<input id="p2" type="password" placeholder="تأكيد كلمة السر" style="display:none">
 <input id="rec" placeholder="الصق رمز الاسترداد" style="display:none">
 <div id="pb" style="display:none;margin-bottom:14px">
 <label for="pIn" class="pc" id="pvp">👤</label>
@@ -121,7 +120,7 @@ input:focus{border-color:#a855f7}
 <div class="row">
 <div class="rw"><a class="r r1" href="https://hesoyam14moh-dot.github.io/monster-game/" target="_blank"></a><p class="nt"><span>👹 لعبة الوحش</span><span class="small">أوف لاين</span></p></div>
 <div class="rw"><a class="r r2" href="https://hesoyam14moh-dot.github.io/sohtar/" target="_blank"></a><p class="nt ol"><span>🌐 أونلاين</span></p></div>
-<div class="rw"><a class="r r3" href="https://celadon-nougat-e928ec.netlify.app" target="_blank"></a><p class="nt">💬 شات</p></div>
+<div class="rw"><a class="r r3" href="https://bucolic-yeot-febdca.netlify.app" target="_blank"></a><p class="nt">💬 شات</p></div>
 <div class="rw"><a class="r r4" href="https://hesoyam14moh-dot.github.io/parkour/" target="_blank"></a><p class="nt"><span>🏃 باركور</span><span class="small">أونلاين + أوف لاين</span></p></div>
 <div class="rw"><a class="r r5" href="https://hesoyam14moh-dot.github.io/back-room/" target="_blank"></a><p class="nt"><span>🚪 باك رومز</span><span class="small">أونلاين</span></p></div>
 <div class="rw"><a class="r r6" href="https://hesoyam14moh-dot.github.io/mrbat/" target="_blank"></a><p class="nt"><span>🧩 لعبة المربعات</span><span class="small">أونلاين + أوف لاين</span><span class="small">فردي وجماعي</span></p></div>
@@ -223,7 +222,6 @@ function tab(m){
   if(m==='recover')on('tr');else off('tr');
   $('u').style.display=m==='recover'?'none':'block';
   $('p').style.display=m==='recover'?'none':'block';
-  $('p2').style.display=m==='signup'?'block':'none';
   $('pb').style.display=m==='signup'?'block':'none';
   $('rec').style.display=m==='recover'?'block':'none';
   $('mb').innerHTML=m==='signup'?'إنشاء الحساب':(m==='recover'?'استرداد':'دخول');
@@ -231,7 +229,7 @@ function tab(m){
 }
 
 function go(){
-  var u=$('u').value.replace(/^\s+|\s+$/g,''),p=$('p').value,p2=$('p2').value,r=$('rec').value.replace(/^\s+|\s+$/g,''),us=U();
+  var u=$('u').value.replace(/^\s+|\s+$/g,''),p=$('p').value,r=$('rec').value.replace(/^\s+|\s+$/g,''),us=U();
   $('m').innerHTML='';
   if(mode==='recover'){
     if(!r){$('m').innerHTML='الصق الرمز';return;}
@@ -243,7 +241,6 @@ function go(){
   }
   if(!u||!p){$('m').innerHTML='اكتب الاسم وكلمة السر';return;}
   if(mode==='signup'){
-    if(p!==p2){$('m').innerHTML='كلمتا السر غير متطابقتين';return;}
     if(us[u]){$('m').innerHTML='الاسم موجود';return;}
     us[u]={password:p,pic:newPic||null,coins:0,usedCodes:[],character:null};
     if(!S(us))return;
@@ -266,11 +263,14 @@ function openR(){$('rInp').value='';$('rr').innerHTML='';on('rm');}
 function cls(id){off(id);}
 
 function checkCode(code){
-  if(code==='6767676')return 10;
+  var up=code.toUpperCase();
+  if(up==='MOH'||up==='QAIS')return 10;
   var m=code.match(/=\((\d+(?:\.\d+)?)\)/);
   if(!m)return null;
-  var coins=parseFloat(m[1])-5;
+  var num=parseFloat(m[1]);
+  var coins=num-5;
   if(coins<=0)return null;
+  if(num>=25)return null;
   var eq=code.indexOf('=('),cl=code.indexOf(')',eq);
   if(eq<0||cl<0)return null;
   var b=code.substring(0,eq),a=code.substring(cl+1);
@@ -294,7 +294,22 @@ function subR(){
     return;
   }
   var amount=checkCode(code);
-  if(amount===null){$('rr').innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';return;}
+  if(amount===null){
+    var mm=code.match(/=\((\d+(?:\.\d+)?)\)/);
+    if(mm&&parseFloat(mm[1])>=25){
+      $('rr').innerHTML='<div style="color:#ff6b6b;font-weight:bold">🚫 غش! الرقم فوق 20 عملة</div>';
+    }else{
+      $('rr').innerHTML='<div style="color:#ff6b6b">❌ الكود غير صحيح</div>';
+    }
+    return;
+  }
+  var key=code.toUpperCase();
+  us[u].usedCodes=us[u].usedCodes||[];
+  if(us[u].usedCodes.indexOf(key)!==-1){
+    $('rr').innerHTML='<div style="color:#ff6b6b">⚠️ استخدمت هذا الكود مسبقاً</div>';
+    return;
+  }
+  us[u].usedCodes.push(key);
   us[u].coins=(us[u].coins||0)+amount;S(us);upC();
   $('rr').innerHTML='<div class="ok">🎉 مبروك!</div><div class="gm">+'+amount+' عملة</div><div class="cs"><img src="'+CU+'"><div style="text-align:right"><div class="v">'+us[u].coins+'</div><div class="l">مجموع عملاتك</div></div></div>';
   $('rInp').value='';
@@ -320,7 +335,7 @@ function svA(){
   $('av').innerHTML='✅ تم الحفظ';
   setTimeout(function(){off('am');},800);
 }
-function out(){localStorage.removeItem('tk_s');off('sm');off('g');on('a');$('u').value='';$('p').value='';$('p2').value='';$('rec').value='';tab('login');}
+function out(){localStorage.removeItem('tk_s');off('sm');off('g');on('a');$('u').value='';$('p').value='';$('rec').value='';tab('login');}
 window.onload=function(){var s=C();if(s&&U()[s])in_(s);};
 </script>
 </body>
